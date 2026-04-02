@@ -15,10 +15,33 @@ up: "[[00 - Índice]]"
 
 ---
 
+## Detalle: Base de datos de Glendale
+
+- Base de datos: `glendale_app`
+- Host: `107.180.115.249`
+- Port: `3306`
+- User: `agent_user`
+- Pass: `+HzYh6S9n!{[q2$GT`
+- Tabla `tbl_return_form_users`: contiene la información de la devolución.
+- Tabla `tbl_item_list`: contiene la información del item a devolver (que se usará en el ERP) y la información de la razón de la devolución. Esta tabla es muy importante para el procesamiento.
+- El vínculo entre ambas tablas se realiza mediante la columna `user_id`.
+- El campo `return_for` ya no está en uso. Se había considerado como posible campo del monto de devolución, pero queda pendiente identificar en qué campo está ese dato real para la auto-aprobación de $150 USD.
+- Consulta de ejemplo: `SELECT * FROM glendale_app.tbl_return_form_users LIMIT 10;`
+
+## Detalle: SSH tunnel / VM Azure
+
+- Host: `40.76.118.187`
+- Port: `22`
+- User: `azureuser`
+- Key pair: `vm-glendale-001_key.pem`
+
+---
+
 ## Detalle: MOM ERP – Opciones de Integración
 
 ### Opción A – CSV Nocturno *(menor riesgo técnico)*
 - El Agente genera un CSV con las acciones aprobadas al final del día.
+- El CSV se compartirá usando un servidor SFTP en nuestra infraestructura; este archivo equivale al body de la petición.
 - MOM lo ingesta overnight.
 - Los emails al cliente se envían a la mañana siguiente.
 

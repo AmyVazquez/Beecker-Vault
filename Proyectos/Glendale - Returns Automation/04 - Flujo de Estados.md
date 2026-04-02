@@ -16,6 +16,17 @@ Todos los returns fluyen a través de los siguientes estados, gestionados en la 
 | `Approved` | Agente (automático) o Aprobador (manual) | Return aprobado; el Agente ejecutará el script de return |
 | `Rejected` | Almacén o Aprobador (Missing Item/Refund) | Solicitud rechazada por reglas de negocio; el Agente enviará comunicación al cliente |
 
+## Mapping de valores de `Status` en la BD
+
+Los valores numéricos almacenados en `Status` se mapean a los estados visibles como sigue:
+
+| Valor | Estado |
+|---|---|
+| `0` | `Pending – Missing Info` |
+| `1` | `Pending – Complete Info` |
+| `2` | `Needs Attention` |
+| `3` | `Approved` |
+
 ## Diagrama de flujo
 
 ![[Flujo de Estados - Diagrama.canvas]]

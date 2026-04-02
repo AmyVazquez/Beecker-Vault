@@ -32,6 +32,9 @@ estado: En revisión
 - [[F5 - Reembolsos]]
 - [[F6 - Artículo Faltante]]
 
+### Diseño de Plataforma
+- [[08 - Vistas de la Plataforma]]
+
 ### Definiciones y Gobierno
 - [[04 - Flujo de Estados]]
 - [[05 - Fuera de Alcance]]
