@@ -67,7 +67,7 @@ Debe incluir:
     - `Auto-approved`: conteo de devoluciones que el agente finalizó automáticamente según las reglas de negocio.
       - Si el dato no está en `tbl_return_form_users`, debe obtenerse de la lógica del agente o de una tabla de eventos de ejecución.
     - `Manual review`: conteo de devoluciones que requieren coordinación humana o revisión interna.
-    - `Active Returns`: conteo de devoluciones aún no completadas (`status` distinto de `Completed` / estado final).
+    - `Active Returns`: conteo de devoluciones aún no completadas (status `Pending`, `Needs Attention` o `Approved` — se omite `Completed` por ser un estado independiente).
     - `Error rate`: porcentaje de devoluciones con resultado `error` sobre el total procesado en el periodo.
 - Gráfica de tendencia central.
   - Línea de evolución de devoluciones recibidas, procesadas y aprobadas por día/mes.
@@ -79,7 +79,8 @@ Debe incluir:
     - `Average processing time` = promedio del tiempo entre `created_at` y `updated_at` para devoluciones completadas.
 - Panel de proceso / etapas de la devolución.
   - Debe ser un flujo visual con los estados del proceso y, donde sea posible, con los conteos actuales de devoluciones en cada etapa.
-  - Etapas: `Request submitted`, `Information review`, `Needs Attention`, `Approval decision`, `Processing & Execution`, `Completed`.
+  - Etapas: `Request submitted`, `Information review`, `Needs Attention`, `Approval decision`, `Processing & Execution`.
+  - El estado `Completed` se omite de este panel por ser un estado independiente.
 - Transacciones activas.
   - Lista o tarjetas con devoluciones en curso, estado actual y etapa; puede indicar quién está a cargo o si es revisión automática vs. manual.
 - Transacciones mensuales.
@@ -87,86 +88,52 @@ Debe incluir:
 
 > El dashboard debe seguir el ejemplo visual: cards KPI arriba, trend chart al centro, proceso de flujo intermedio y paneles de transacciones activas / mensuales a la derecha o abajo.
 
-#### Definición de métricas de KPI
-
-- `Total Returns`
-  - Conteo de registros en `tbl_return_form_users` dentro del periodo seleccionado.
-- `Auto-approved`
-  - Conteo de devoluciones que el agente marcó como aprobadas automáticamente según reglas de negocio.
-  - Fuente: resultado de la ejecución del agente o tabla de eventos, si no está disponible directamente en `tbl_return_form_users`.
-- `Manual review`
-  - Conteo de devoluciones que requieren intervención humana o revisión interna.
-- `Active Returns`
-  - Conteo de devoluciones con estado distinto de `Completed` / estado final.
-- `Error rate`
-  - Porcentaje de devoluciones con resultado `error` sobre el total procesado en el periodo.
-- `Auto-approval rate`
-  - `Auto-approved` / `Total Returns` * 100.
-- `Manual review rate`
-  - `Manual review` / `Total Returns` * 100.
-- `Average processing time`
-  - Promedio de tiempo entre `created_at` y `updated_at` para devoluciones completadas.
-
-Visualmente, el `Summary` podría representarse así:
-
-```mermaid
-flowchart TD
-  A[KPI cards] --> B[Gráfica de tendencia]
-  B --> C[Panel de etapas de proceso]
-  C --> D[Transacciones activas]
-  C --> E[Mini-panel mensual (donut)]
-```
-
-En este contexto, "panel de proceso de estado con conteos actuales" significa:
-
-- Un panel horizontal o de pasos donde cada etapa muestra su nombre y el número de devoluciones que están en esa etapa ahora.
-- Ejemplo: `Request submitted (20)`, `Information review (10)`, `Needs Attention (2)`, `Approval decision (15)`, `Processing & Execution (4)`, `Completed (6)`.
-
-El "mini-panel mensual tipo donut" es un gráfico secundario que muestra la distribución mensual, por ejemplo:
-
-- `Completed`: 450
-- `Pending`: 50
-- `Over limit`: 0
-
-Este mini-panel sirve para ver al instante la proporción de casos resueltos vs. pendientes sin salir del `Summary`.
-
 ### Run history
 
-Esta vista muestra el histórico de ejecuciones del agente y permite explorar cada transacción.
+> Referencia visual: `Lucas - Run history.png`
 
-Debe incluir:
+Esta vista muestra el histórico de todas las devoluciones registradas y permite explorar cada transacción.
 
-- Selector de mes / filtro de fecha por mes.
-- Descarga de CSV.
-- Búsqueda por columnas.
-- Tabla de resultados con todas las columnas y los datos necesarios para visualizar cada devolución.
+#### Layout y controles (según diseño de Lucas)
 
-> Similar al ejemplo, debe combinar filtro superior + botón CSV + tabla expandida para revisar el historial de ejecuciones.
+- Botón `< Returns List` en la esquina superior izquierda para regresar a la vista principal.
+- Barra de búsqueda global en la esquina superior derecha del header.
+- Paginación numérica en la esquina superior derecha de la tabla.
+- Tabla de ancho completo con filas de fondo alternado.
 
-#### Columnas recomendadas
+#### Columnas de la tabla
 
-| Columna BD                         | Etiqueta visual   | Ejemplo                  | Posibles valores                                                                                      |
-| ---------------------------------- | ----------------- | ------------------------ | ----------------------------------------------------------------------------------------------------- |
-| `user_id`                          | User ID           | 001                      | numérico único                                                                                        |
-| `first_name`                       | First Name        | Juan                     | texto libre                                                                                           |
-| `last_name`                        | Last Name         | Pérez                    | texto libre                                                                                           |
-| `order_no`                         | No Order          | 123456                   | texto/número de orden                                                                                 |
-| `invoice_no`                       | No Invoice        | INV-2026-001             | texto/número de factura                                                                               |
-| `return_current_date`              | Return Date       | 2026-04-02               | fecha (`YYYY-MM-DD`)                                                                                  |
-| `status` / `status` numérico       | Status            | 2                        | 0 = Pending – Missing Info;<br>011 = Pending – Complete Info;<br>2 = Needs Attention;<br>3 = Approved |
-| `return_for`                       | Return For        |                          | campo no usado / pendiente                                                                            |
-| `return type` (tipo de devolución) | Return Type       | Exchange                 | Exchange / Refund / Repair / Otro                                                                     |
-| `item_name`                        | Item Name         | Camiseta                 | texto descriptivo del producto                                                                        |
-| `exchange_item`                    | Exchange Item     | Camiseta alterna         | texto descriptivo del item de cambio                                                                  |
-| `reason_for_return`                | Reason for Return | Defectuoso               | Defectuoso / Incorrecto / Faltante / Otro                                                             |
-| `quantity_returned`                | Quantity Returned | 1                        | entero positivo                                                                                       |
-| `created_at`                       | Created At        | 2026-04-02 08:00         | fecha y hora (`YYYY-MM-DD HH:MM`)                                                                     |
-| `updated_at`                       | Updated At        | 2026-04-02 10:30         | fecha y hora (`YYYY-MM-DD HH:MM`)                                                                     |
-| `comments`                         | Comments          | Cliente no quiere cambio | texto libre                                                                                           |
-| `email_address`                    | Email Address     | cliente@correo.com       | correo electrónico válido                                                                             |
-| `address`                          | Address           | Calle Falsa 123          | texto libre                                                                                           |
+| # | Columna BD                         | Etiqueta visual   | Ejemplo                        | Posibles valores / Notas                                                                                                                                                             |
+|---| ---------------------------------- | ----------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1 | `user_id`                          | User ID           | 001                            | numérico único                                                                                                                                                                       |
+| 2 | `first_name` + `last_name`         | User Name         | Juan Pérez                     | concatenación de ambos campos de `tbl_return_form_users`                                                                                                                             |
+| 3 | `order_no`                         | No Order          | 123456                         | texto/número de orden                                                                                                                                                                |
+| 4 | `invoice_no`                       | No Invoice        | INV-2026-001                   | texto/número de factura                                                                                                                                                              |
+| 5 | `return_current_date`              | Return Date       | 2026-04-02                     | fecha (`YYYY-MM-DD`)                                                                                                                                                                 |
+| 6 | `status` numérico                  | Status            | badge coloreado                | 0 = Pending – Missing Info;<br>1 = Pending – Complete Info;<br>2 = Needs Attention;<br>3 = Approved;<br>Rejected = sin valor numérico mapeado aún (asignado por almacén o aprobador) |
+| 7 | `return_for`                       | Return For        | —                              | campo actualmente sin uso / pendiente de definición                                                                                                                                  |
+| 8 | `return_type`                      | Return Type       | Refund                         | Damaged Goods / Manufacturer Defect / Wrong Item / Refund / Missing Item                                                                                                             |
+| 9 | `item_name`                        | Item Name         | Camiseta                       | texto descriptivo del producto (`tbl_item_list`)                                                                                                                                     |
+|10 | `exchange_item`                    | Exchange Item     | Camiseta alterna               | texto descriptivo del artículo de cambio (`tbl_item_list`)                                                                                                                           |
+|11 | `reason_for_return`                | Reason for Return | Defectuoso                     | Defectuoso / Incorrecto / Faltante / Otro (`tbl_item_list`)                                                                                                                          |
+|12 | `quantity_returned`                | Quantity Returned | 1                              | entero positivo (`tbl_item_list`)                                                                                                                                                    |
+|13 | `created_at`                       | Created At        | 2026-04-02 08:00               | fecha y hora (`YYYY-MM-DD HH:MM`)                                                                                                                                                    |
+|14 | `updated_at`                       | Updated At        | 2026-04-02 10:30               | fecha y hora (`YYYY-MM-DD HH:MM`)                                                                                                                                                    |
+|15 | `email_address`                    | Email Address     | cliente@correo.com             | correo electrónico válido                                                                                                                                                            |
+|16 | `address`                          | Address           | Calle Falsa 123                | texto libre                                                                                                                                                                          |
+|17 | `comments`                         | Comments          | Cliente no quiere cambio       | texto libre                                                                                                                                                                          |
 
-> Nota: la tabla debe reflejar el modelo de datos (base de datos) y ser lo suficientemente completa para que el equipo de plataforma pueda construirla sin perder información.
+#### Color de badges por estado
+
+| Estado                    | Color del badge | Hex       |
+| ------------------------- | --------------- | --------- |
+| `Pending – Missing Info`  | Naranja         | `#B8511D` |
+| `Pending – Complete Info` | Morado          | `#803FE0` |
+| `Needs Attention`         | Rojo            | `#BC2A2A` |
+| `Approved`                | Verde           | `#217E25` |
+| `Rejected`                | Por definir     | `#BC2A2A` |
+
+> Nota: el orden de columnas en esta tabla refleja el orden observado en el diseño de Lucas (`Lucas - Run history.png`) y debe respetarse en la implementación.
 
 
 ### Transaction details

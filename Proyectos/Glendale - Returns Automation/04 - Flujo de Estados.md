@@ -3,6 +3,7 @@ tags: [glendale, estados, workflow]
 up: "[[00 - Índice]]"
 ---
 
+
 # Flujo de Estados
 
 Todos los returns fluyen a través de los siguientes estados, gestionados en la columna `Status` del backend MySQL de Glendale.
