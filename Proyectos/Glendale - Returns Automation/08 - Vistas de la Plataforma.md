@@ -55,24 +55,80 @@ Este borrador describe el layout recomendado para la plataforma usando un enfoqu
 
 ### Summary
 
-La vista principal del dashboard resume el estado actual de las devoluciones y el comportamiento diario.
+La vista principal del dashboard es la entrada rápida para el negocio. No debe incluir controles de exportación CSV; ese tipo de acción corresponde a `Run history`.
 
 Debe incluir:
 
-- Hasta 5 KPIs principales.
-  - Ejemplos: devoluciones procesadas hoy, devoluciones aprobadas, devoluciones en `Needs Attention`, devoluciones auto-aprobadas, devoluciones pendientes.
-- Gráfica de líneas.
-  - Evolución temporal de devoluciones, aprobaciones o volumen por día/mes.
-- KPIs extras (opcional).
-  - Pueden ser métricas secundarias como tasa de aprobación, tiempo medio de resolución, porcentaje de returns por tipo.
-- Etapas del proceso.
-  - Deben hacer match con `Transaction details` y mostrar el flujo de cada devolución: solicitud, missing info, revisión interna, aprobación, completado.
-- Transacciones mensuales.
-  - Panel o mini-tabla con conteo de devoluciones por mes.
+- Cards de KPI en la parte superior.
+  - Cada card es un KPI principal y debe ser visible desde el primer vistazo.
+  - Ejemplos: `Total Returns`, `Auto-approved`, `Manual review`, `Active Returns`, `Error rate`.
+  - Cálculos sugeridos:
+    - `Total Returns`: conteo de registros en `tbl_return_form_users` dentro del período seleccionado.
+    - `Auto-approved`: conteo de devoluciones que el agente finalizó automáticamente según las reglas de negocio.
+      - Si el dato no está en `tbl_return_form_users`, debe obtenerse de la lógica del agente o de una tabla de eventos de ejecución.
+    - `Manual review`: conteo de devoluciones que requieren coordinación humana o revisión interna.
+    - `Active Returns`: conteo de devoluciones aún no completadas (`status` distinto de `Completed` / estado final).
+    - `Error rate`: porcentaje de devoluciones con resultado `error` sobre el total procesado en el periodo.
+- Gráfica de tendencia central.
+  - Línea de evolución de devoluciones recibidas, procesadas y aprobadas por día/mes.
+- Panel de métricas secundarias.
+  - Ejemplos: `Auto-approval rate`, `Manual review rate`, `Average processing time`.
+  - Cálculos sugeridos:
+    - `Auto-approval rate` = `Auto-approved` / `Total Returns` * 100.
+    - `Manual review rate` = `Manual review` / `Total Returns` * 100.
+    - `Average processing time` = promedio del tiempo entre `created_at` y `updated_at` para devoluciones completadas.
+- Panel de proceso / etapas de la devolución.
+  - Debe ser un flujo visual con los estados del proceso y, donde sea posible, con los conteos actuales de devoluciones en cada etapa.
+  - Etapas: `Request submitted`, `Information review`, `Needs Attention`, `Approval decision`, `Processing & Execution`, `Completed`.
 - Transacciones activas.
-  - Conteo o lista de devoluciones que aún están en proceso y no han sido completadas.
+  - Lista o tarjetas con devoluciones en curso, estado actual y etapa; puede indicar quién está a cargo o si es revisión automática vs. manual.
+- Transacciones mensuales.
+  - Donut o mini-panel con conteo de devoluciones completadas, pendientes y sobre límite.
 
-> Este layout sigue el ejemplo proporcionado: cards arriba, gráfico central, etapas de proceso y panel de transacciones activas en la misma pantalla.
+> El dashboard debe seguir el ejemplo visual: cards KPI arriba, trend chart al centro, proceso de flujo intermedio y paneles de transacciones activas / mensuales a la derecha o abajo.
+
+#### Definición de métricas de KPI
+
+- `Total Returns`
+  - Conteo de registros en `tbl_return_form_users` dentro del periodo seleccionado.
+- `Auto-approved`
+  - Conteo de devoluciones que el agente marcó como aprobadas automáticamente según reglas de negocio.
+  - Fuente: resultado de la ejecución del agente o tabla de eventos, si no está disponible directamente en `tbl_return_form_users`.
+- `Manual review`
+  - Conteo de devoluciones que requieren intervención humana o revisión interna.
+- `Active Returns`
+  - Conteo de devoluciones con estado distinto de `Completed` / estado final.
+- `Error rate`
+  - Porcentaje de devoluciones con resultado `error` sobre el total procesado en el periodo.
+- `Auto-approval rate`
+  - `Auto-approved` / `Total Returns` * 100.
+- `Manual review rate`
+  - `Manual review` / `Total Returns` * 100.
+- `Average processing time`
+  - Promedio de tiempo entre `created_at` y `updated_at` para devoluciones completadas.
+
+Visualmente, el `Summary` podría representarse así:
+
+```mermaid
+flowchart TD
+  A[KPI cards] --> B[Gráfica de tendencia]
+  B --> C[Panel de etapas de proceso]
+  C --> D[Transacciones activas]
+  C --> E[Mini-panel mensual (donut)]
+```
+
+En este contexto, "panel de proceso de estado con conteos actuales" significa:
+
+- Un panel horizontal o de pasos donde cada etapa muestra su nombre y el número de devoluciones que están en esa etapa ahora.
+- Ejemplo: `Request submitted (20)`, `Information review (10)`, `Needs Attention (2)`, `Approval decision (15)`, `Processing & Execution (4)`, `Completed (6)`.
+
+El "mini-panel mensual tipo donut" es un gráfico secundario que muestra la distribución mensual, por ejemplo:
+
+- `Completed`: 450
+- `Pending`: 50
+- `Over limit`: 0
+
+Este mini-panel sirve para ver al instante la proporción de casos resueltos vs. pendientes sin salir del `Summary`.
 
 ### Run history
 
