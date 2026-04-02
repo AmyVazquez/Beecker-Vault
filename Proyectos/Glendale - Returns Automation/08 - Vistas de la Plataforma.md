@@ -145,22 +145,29 @@ Debe incluir:
 
 #### Columnas recomendadas
 
-- `user_id`
-- `order_no`
-- `invoice_no`
-- `return_current_date`
-- `status` / `status` numérico
-- `return type` (tipo de devolución)
-- `item_name`
-- `reason_for_return`
-- `quantity_returned`
-- `created_at`
-- `updated_at`
-- `comments`
-- `email_address`
-- `address`
+| Columna BD                         | Etiqueta visual   | Ejemplo                  | Posibles valores                                                                                      |
+| ---------------------------------- | ----------------- | ------------------------ | ----------------------------------------------------------------------------------------------------- |
+| `user_id`                          | User ID           | 001                      | numérico único                                                                                        |
+| `first_name`                       | First Name        | Juan                     | texto libre                                                                                           |
+| `last_name`                        | Last Name         | Pérez                    | texto libre                                                                                           |
+| `order_no`                         | No Order          | 123456                   | texto/número de orden                                                                                 |
+| `invoice_no`                       | No Invoice        | INV-2026-001             | texto/número de factura                                                                               |
+| `return_current_date`              | Return Date       | 2026-04-02               | fecha (`YYYY-MM-DD`)                                                                                  |
+| `status` / `status` numérico       | Status            | 2                        | 0 = Pending – Missing Info;<br>011 = Pending – Complete Info;<br>2 = Needs Attention;<br>3 = Approved |
+| `return_for`                       | Return For        |                          | campo no usado / pendiente                                                                            |
+| `return type` (tipo de devolución) | Return Type       | Exchange                 | Exchange / Refund / Repair / Otro                                                                     |
+| `item_name`                        | Item Name         | Camiseta                 | texto descriptivo del producto                                                                        |
+| `exchange_item`                    | Exchange Item     | Camiseta alterna         | texto descriptivo del item de cambio                                                                  |
+| `reason_for_return`                | Reason for Return | Defectuoso               | Defectuoso / Incorrecto / Faltante / Otro                                                             |
+| `quantity_returned`                | Quantity Returned | 1                        | entero positivo                                                                                       |
+| `created_at`                       | Created At        | 2026-04-02 08:00         | fecha y hora (`YYYY-MM-DD HH:MM`)                                                                     |
+| `updated_at`                       | Updated At        | 2026-04-02 10:30         | fecha y hora (`YYYY-MM-DD HH:MM`)                                                                     |
+| `comments`                         | Comments          | Cliente no quiere cambio | texto libre                                                                                           |
+| `email_address`                    | Email Address     | cliente@correo.com       | correo electrónico válido                                                                             |
+| `address`                          | Address           | Calle Falsa 123          | texto libre                                                                                           |
 
 > Nota: la tabla debe reflejar el modelo de datos (base de datos) y ser lo suficientemente completa para que el equipo de plataforma pueda construirla sin perder información.
+
 
 ### Transaction details
 
