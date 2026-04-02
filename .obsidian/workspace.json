@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Proyectos/Glendale - Returns Automation/08 - Vistas de la Plataforma.md",
+                "file": "Proyectos/Glendale - Returns Automation/Funcionalidades/F1 - Ingesta Diaria y Segmentación de Estados.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "08 - Vistas de la Plataforma"
+              "title": "F1 - Ingesta Diaria y Segmentación de Estados"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Proyectos/Glendale - Returns Automation/08 - Vistas de la Plataforma.md",
+                "file": "Proyectos/Glendale - Returns Automation/Funcionalidades/F1 - Ingesta Diaria y Segmentación de Estados.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Enlaces entrantes de 08 - Vistas de la Plataforma"
+              "title": "Enlaces entrantes de F1 - Ingesta Diaria y Segmentación de Estados"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Proyectos/Glendale - Returns Automation/08 - Vistas de la Plataforma.md",
+                "file": "Proyectos/Glendale - Returns Automation/Funcionalidades/F1 - Ingesta Diaria y Segmentación de Estados.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Enlaces salientes de 08 - Vistas de la Plataforma"
+              "title": "Enlaces salientes de F1 - Ingesta Diaria y Segmentación de Estados"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Proyectos/Glendale - Returns Automation/08 - Vistas de la Plataforma.md",
+                "file": "Proyectos/Glendale - Returns Automation/Funcionalidades/F1 - Ingesta Diaria y Segmentación de Estados.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Esquema de 08 - Vistas de la Plataforma"
+              "title": "Esquema de F1 - Ingesta Diaria y Segmentación de Estados"
             }
           }
         ]
@@ -185,9 +185,9 @@
   },
   "active": "97aed917216bb3f7",
   "lastOpenFiles": [
+    "Proyectos/Glendale - Returns Automation/08 - Vistas de la Plataforma.md",
     "Proyectos/Glendale - Returns Automation/Lucas - Run history.png",
     "Proyectos/Glendale - Returns Automation/Flujo de Estados - Diagrama.canvas",
-    "Proyectos/Glendale - Returns Automation/08 - Vistas de la Plataforma.md",
     "Proyectos/Glendale - Returns Automation/Funcionalidades/F1 - Ingesta Diaria y Segmentación de Estados.md",
     "Proyectos/Glendale - Returns Automation/00 - Índice.md",
     "Lucas - Run history.png",

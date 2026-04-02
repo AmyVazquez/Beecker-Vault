@@ -60,28 +60,30 @@ Debe incluir:
 
 - Cards de KPI en la parte superior.
   - Cada card es un KPI principal y debe ser visible desde el primer vistazo.
-  - Ejemplos: `Total Returns`, `Auto-approved`, `Manual review`, `Active Returns`, `Error rate`.
+  - Cards: `Total Returns`, `Auto-approved`, `Manual review`, `Active Returns`.
   - Cálculos sugeridos:
     - `Total Returns`: conteo de registros en `tbl_return_form_users` dentro del período seleccionado.
     - `Auto-approved`: conteo de devoluciones que el agente finalizó automáticamente según las reglas de negocio.
       - Si el dato no está en `tbl_return_form_users`, debe obtenerse de la lógica del agente o de una tabla de eventos de ejecución.
-    - `Manual review`: conteo de devoluciones que requieren coordinación humana o revisión interna.
-    - `Active Returns`: conteo de devoluciones aún no completadas (status `Pending`, `Needs Attention` o `Approved` — se omite `Completed` por ser un estado independiente).
-    - `Error rate`: porcentaje de devoluciones con resultado `error` sobre el total procesado en el periodo.
+    - `Manual review`: conteo de devoluciones que requieren intervención humana o revisión interna.
+    - `Active Returns`: número absoluto de devoluciones con status `Pending`, `Needs Attention` o `Approved` (ej. "18 Active Returns"). Se omite `Completed` por ser un estado independiente. Se muestra como conteo, no como porcentaje.
 - Gráfica de tendencia central.
   - Línea de evolución de devoluciones recibidas, procesadas y aprobadas por día/mes.
 - Panel de métricas secundarias.
-  - Ejemplos: `Auto-approval rate`, `Manual review rate`, `Average processing time`.
+  - Métricas: `Auto-approval rate`, `Manual review rate`, `Average processing time`.
   - Cálculos sugeridos:
     - `Auto-approval rate` = `Auto-approved` / `Total Returns` * 100.
     - `Manual review rate` = `Manual review` / `Total Returns` * 100.
-    - `Average processing time` = promedio del tiempo entre `created_at` y `updated_at` para devoluciones completadas.
+    - `Average processing time` = promedio del tiempo entre `created_at` y `updated_at` para devoluciones completadas, expresado por devolución (ej. "2 min por devolución").
 - Panel de proceso / etapas de la devolución.
   - Debe ser un flujo visual con los estados del proceso y, donde sea posible, con los conteos actuales de devoluciones en cada etapa.
   - Etapas: `Request submitted`, `Information review`, `Needs Attention`, `Approval decision`, `Processing & Execution`.
   - El estado `Completed` se omite de este panel por ser un estado independiente.
 - Transacciones activas.
   - Lista o tarjetas con devoluciones en curso, estado actual y etapa; puede indicar quién está a cargo o si es revisión automática vs. manual.
+- Pie chart de tipo de devolución.
+  - Distribución de devoluciones por tipo dentro del período seleccionado.
+  - Tipos (según PDD): `Damaged Goods`, `Manufacturer Defect`, `Wrong Item`, `Refund`, `Missing Item`.
 - Transacciones mensuales.
   - Donut o mini-panel con conteo de devoluciones completadas, pendientes y sobre límite.
 
@@ -102,25 +104,23 @@ Esta vista muestra el histórico de todas las devoluciones registradas y permite
 
 #### Columnas de la tabla
 
-| #   | Columna BD                 | Etiqueta visual   | Ejemplo                  | Posibles valores / Notas                                                                                                                                                             |
-| --- | -------------------------- | ----------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1   | `user_id`                  | User ID           | 001                      | numérico único                                                                                                                                                                       |
-| 2   | `first_name` + `last_name` | User Name         | Juan Pérez               | concatenación de ambos campos de `tbl_return_form_users`                                                                                                                             |
-| 3   | `order_no`                 | No Order          | 123456                   | texto/número de orden                                                                                                                                                                |
-| 4   | `invoice_no`               | No Invoice        | INV-2026-001             | texto/número de factura                                                                                                                                                              |
-| 5   | `return_current_date`      | Return Date       | 2026-04-02               | fecha (`YYYY-MM-DD`)                                                                                                                                                                 |
-| 6   | `status` numérico          | Status            | badge coloreado          | 0 = Pending – Missing Info;<br>1 = Pending – Complete Info;<br>2 = Needs Attention;<br>3 = Approved;<br>Rejected = sin valor numérico mapeado aún (asignado por almacén o aprobador) |
-| 7   | `return_for`               | Return For        | —                        | campo actualmente sin uso / pendiente de definición                                                                                                                                  |
-| 8   | `return_type`              | Return Type       | Refund                   | Damaged Goods / Manufacturer Defect / Wrong Item / Refund / Missing Item                                                                                                             |
-| 9   | `item_name`                | Item Name         | Camiseta                 | texto descriptivo del producto (`tbl_item_list`)                                                                                                                                     |
-| 10  | `exchange_item`            | Exchange Item     | Camiseta alterna         | texto descriptivo del artículo de cambio (`tbl_item_list`)                                                                                                                           |
-| 11  | `reason_for_return`        | Reason for Return | Defectuoso               | Defectuoso / Incorrecto / Faltante / Otro (`tbl_item_list`)                                                                                                                          |
-| 12  | `quantity_returned`        | Quantity Returned | 1                        | entero positivo (`tbl_item_list`)                                                                                                                                                    |
-| 13  | `created_at`               | Created At        | 2026-04-02 08:00         | fecha y hora (`YYYY-MM-DD HH:MM`)                                                                                                                                                    |
-| 14  | `updated_at`               | Updated At        | 2026-04-02 10:30         | fecha y hora (`YYYY-MM-DD HH:MM`)                                                                                                                                                    |
-| 15  | `email_address`            | Email Address     | cliente@correo.com       | correo electrónico válido                                                                                                                                                            |
-| 16  | `address`                  | Address           | Calle Falsa 123          | texto libre                                                                                                                                                                          |
-| 17  | `comments`                 | Comments          | Cliente no quiere cambio | texto libre                                                                                                                                                                          |
+| #  | Columna BD                 | Etiqueta visual   | Ejemplo                  | Posibles valores / Notas                                                                                                                                                             |
+| -- | -------------------------- | ----------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1  | `user_id`                  | User ID           | 001                      | numérico único                                                                                                                                                                       |
+| 2  | `first_name` + `last_name` | User Name         | Juan Pérez               | concatenación de ambos campos de `tbl_return_form_users`                                                                                                                             |
+| 3  | `order_no`                 | No Order          | 123456                   | texto/número de orden                                                                                                                                                                |
+| 4  | `invoice_no`               | No Invoice        | INV-2026-001             | texto/número de factura                                                                                                                                                              |
+| 5  | `return_current_date`      | Return Date       | 2026-04-02               | fecha (`YYYY-MM-DD`)                                                                                                                                                                 |
+| 6  | `status` numérico          | Status            | badge coloreado          | 0 = Pending – Missing Info;<br>1 = Pending – Complete Info;<br>2 = Needs Attention;<br>3 = Approved;<br>Rejected = sin valor numérico mapeado aún (asignado por almacén o aprobador) |
+| 7  | `return_for`               | Return For        | —                        | campo actualmente sin uso / pendiente de definición                                                                                                                                  |
+| 8  | `return_type`              | Return Type       | Refund                   | Damaged Goods / Manufacturer Defect / Wrong Item / Refund / Missing Item                                                                                                             |
+| 9  | `item_name`                | Item Name         | Camiseta                 | texto descriptivo del producto (`tbl_item_list`)                                                                                                                                     |
+| 10 | `reason_for_return`        | Reason for Return | Defectuoso               | Defectuoso / Incorrecto / Faltante / Otro (`tbl_item_list`)                                                                                                                          |
+| 11 | `quantity_returned`        | Quantity Returned | 1                        | entero positivo (`tbl_item_list`)                                                                                                                                                    |
+| 12 | `email_address`            | Email Address     | cliente@correo.com       | correo electrónico válido                                                                                                                                                            |
+| 13 | `comments`                 | Comments          | Cliente no quiere cambio | texto libre                                                                                                                                                                          |
+
+> Columnas excluidas de esta vista (disponibles en Transaction Details): `exchange_item`, `address`, `created_at`, `updated_at`.
 
 #### Color de badges por estado
 
@@ -141,15 +141,44 @@ Al hacer clic en una fila del `Run history`, se abre la vista de detalle de la t
 
 Debe contener:
 
-- Sección con la misma información que aparece en `Run history` para la devolución seleccionada.
-- Sección de etapas de proceso con sus respectivas flags.
-  - Por ejemplo: `Requested`, `Missing Info`, `Sent for Approval`, `Approved`, `Completed`.
-- Comentarios (opcional).
-  - Chat o hilo de comentarios que documente qué se pidió, qué respondió el cliente y qué decisiones se tomaron.
-- Documentos (opcional).
-  - Adjuntos relacionados con la devolución: fotos, comprobantes, guías, etc.
+- **Header / resumen**: misma información que aparece en `Run history` para la devolución seleccionada, incluyendo los campos excluidos de esa tabla (`exchange_item`, `address`, `created_at`, `updated_at`).
+- **Banderas del proceso**: timeline con 3 etapas principales, cada una con sus sub-estados.
+- **Seguimiento de comunicaciones por correo**: bandeja colapsable con los correos enviados relacionados a la devolución.
+- **Fotos de la devolución**: espacio para mostrar imágenes adjuntas relacionadas (pendiente de definición técnica).
 
-> Esta vista debe replicar el estilo del ejemplo: header con resumen de la transacción, timeline de etapas, panel de conversación y sección de documentos.
+#### Banderas del proceso
+
+Las 3 etapas principales y sus sub-estados son:
+
+**1. Devolución en bandeja** *(status: Pending)*
+- Devolución recién ingresada, sin procesar.
+- Devolución con información incompleta (pendiente de completar por el cliente).
+- Devolución con información completa, pendiente de que inicie el flujo del día.
+
+**2. Devolución en validación** *(status: Needs Attention)*
+- En validación de monto (automática o manual según umbral).
+- Pendiente de revisión por humano — notificación levantada al equipo de Glendale.
+- Pendiente de nueva información del cliente — correo de seguimiento enviado.
+- Devolución validada (o rechazada — fin del proceso).
+
+**3. Devolución aprobada y en ejecución** *(status: Approved)*
+- Generar shipping label UPS *(solo aplica para: Damaged Goods, Manufacturer Defect, Wrong Item — no aplica para Refund ni Missing Item)*.
+- Ingresar devolución al ERP/MOM.
+- Email enviado al cliente.
+- Devolución resuelta.
+
+#### Seguimiento de comunicaciones por correo
+
+Sección tipo "bandeja de entrada" que muestra los correos enviados relacionados a esta devolución:
+
+- Cada correo aparece como un ítem colapsable con asunto, fecha y destinatario visibles.
+- Al expandir, muestra el cuerpo completo del correo enviado.
+- Reemplaza el enfoque de chat; documenta las comunicaciones reales del agente hacia el cliente o el equipo.
+
+#### Fotos de la devolución
+
+- Espacio reservado para mostrar imágenes adjuntas a la devolución (ej. fotos del artículo dañado).
+- Pendiente de definición técnica: origen de las imágenes y cómo se vinculan al registro.
 
 ---
 
