@@ -2,7 +2,6 @@
 tags: [glendale, dashboard, vistas, ui]
 up: "[[00 - Índice]]"
 ---
-
 # Vistas de la Plataforma
 
 Esta página describe las vistas principales que debe incluir el dashboard para el Agente de Devoluciones de Glendale.
@@ -103,25 +102,25 @@ Esta vista muestra el histórico de todas las devoluciones registradas y permite
 
 #### Columnas de la tabla
 
-| # | Columna BD                         | Etiqueta visual   | Ejemplo                        | Posibles valores / Notas                                                                                                                                                             |
-|---| ---------------------------------- | ----------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1 | `user_id`                          | User ID           | 001                            | numérico único                                                                                                                                                                       |
-| 2 | `first_name` + `last_name`         | User Name         | Juan Pérez                     | concatenación de ambos campos de `tbl_return_form_users`                                                                                                                             |
-| 3 | `order_no`                         | No Order          | 123456                         | texto/número de orden                                                                                                                                                                |
-| 4 | `invoice_no`                       | No Invoice        | INV-2026-001                   | texto/número de factura                                                                                                                                                              |
-| 5 | `return_current_date`              | Return Date       | 2026-04-02                     | fecha (`YYYY-MM-DD`)                                                                                                                                                                 |
-| 6 | `status` numérico                  | Status            | badge coloreado                | 0 = Pending – Missing Info;<br>1 = Pending – Complete Info;<br>2 = Needs Attention;<br>3 = Approved;<br>Rejected = sin valor numérico mapeado aún (asignado por almacén o aprobador) |
-| 7 | `return_for`                       | Return For        | —                              | campo actualmente sin uso / pendiente de definición                                                                                                                                  |
-| 8 | `return_type`                      | Return Type       | Refund                         | Damaged Goods / Manufacturer Defect / Wrong Item / Refund / Missing Item                                                                                                             |
-| 9 | `item_name`                        | Item Name         | Camiseta                       | texto descriptivo del producto (`tbl_item_list`)                                                                                                                                     |
-|10 | `exchange_item`                    | Exchange Item     | Camiseta alterna               | texto descriptivo del artículo de cambio (`tbl_item_list`)                                                                                                                           |
-|11 | `reason_for_return`                | Reason for Return | Defectuoso                     | Defectuoso / Incorrecto / Faltante / Otro (`tbl_item_list`)                                                                                                                          |
-|12 | `quantity_returned`                | Quantity Returned | 1                              | entero positivo (`tbl_item_list`)                                                                                                                                                    |
-|13 | `created_at`                       | Created At        | 2026-04-02 08:00               | fecha y hora (`YYYY-MM-DD HH:MM`)                                                                                                                                                    |
-|14 | `updated_at`                       | Updated At        | 2026-04-02 10:30               | fecha y hora (`YYYY-MM-DD HH:MM`)                                                                                                                                                    |
-|15 | `email_address`                    | Email Address     | cliente@correo.com             | correo electrónico válido                                                                                                                                                            |
-|16 | `address`                          | Address           | Calle Falsa 123                | texto libre                                                                                                                                                                          |
-|17 | `comments`                         | Comments          | Cliente no quiere cambio       | texto libre                                                                                                                                                                          |
+| #   | Columna BD                 | Etiqueta visual   | Ejemplo                  | Posibles valores / Notas                                                                                                                                                             |
+| --- | -------------------------- | ----------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | `user_id`                  | User ID           | 001                      | numérico único                                                                                                                                                                       |
+| 2   | `first_name` + `last_name` | User Name         | Juan Pérez               | concatenación de ambos campos de `tbl_return_form_users`                                                                                                                             |
+| 3   | `order_no`                 | No Order          | 123456                   | texto/número de orden                                                                                                                                                                |
+| 4   | `invoice_no`               | No Invoice        | INV-2026-001             | texto/número de factura                                                                                                                                                              |
+| 5   | `return_current_date`      | Return Date       | 2026-04-02               | fecha (`YYYY-MM-DD`)                                                                                                                                                                 |
+| 6   | `status` numérico          | Status            | badge coloreado          | 0 = Pending – Missing Info;<br>1 = Pending – Complete Info;<br>2 = Needs Attention;<br>3 = Approved;<br>Rejected = sin valor numérico mapeado aún (asignado por almacén o aprobador) |
+| 7   | `return_for`               | Return For        | —                        | campo actualmente sin uso / pendiente de definición                                                                                                                                  |
+| 8   | `return_type`              | Return Type       | Refund                   | Damaged Goods / Manufacturer Defect / Wrong Item / Refund / Missing Item                                                                                                             |
+| 9   | `item_name`                | Item Name         | Camiseta                 | texto descriptivo del producto (`tbl_item_list`)                                                                                                                                     |
+| 10  | `exchange_item`            | Exchange Item     | Camiseta alterna         | texto descriptivo del artículo de cambio (`tbl_item_list`)                                                                                                                           |
+| 11  | `reason_for_return`        | Reason for Return | Defectuoso               | Defectuoso / Incorrecto / Faltante / Otro (`tbl_item_list`)                                                                                                                          |
+| 12  | `quantity_returned`        | Quantity Returned | 1                        | entero positivo (`tbl_item_list`)                                                                                                                                                    |
+| 13  | `created_at`               | Created At        | 2026-04-02 08:00         | fecha y hora (`YYYY-MM-DD HH:MM`)                                                                                                                                                    |
+| 14  | `updated_at`               | Updated At        | 2026-04-02 10:30         | fecha y hora (`YYYY-MM-DD HH:MM`)                                                                                                                                                    |
+| 15  | `email_address`            | Email Address     | cliente@correo.com       | correo electrónico válido                                                                                                                                                            |
+| 16  | `address`                  | Address           | Calle Falsa 123          | texto libre                                                                                                                                                                          |
+| 17  | `comments`                 | Comments          | Cliente no quiere cambio | texto libre                                                                                                                                                                          |
 
 #### Color de badges por estado
 
@@ -131,7 +130,7 @@ Esta vista muestra el histórico de todas las devoluciones registradas y permite
 | `Pending – Complete Info` | Morado          | `#803FE0` |
 | `Needs Attention`         | Rojo            | `#BC2A2A` |
 | `Approved`                | Verde           | `#217E25` |
-| `Rejected`                | Por definir     | `#BC2A2A` |
+| `Rejected`                | Rojo            | `#BC2A2A` |
 
 > Nota: el orden de columnas en esta tabla refleja el orden observado en el diseño de Lucas (`Lucas - Run history.png`) y debe respetarse en la implementación.
 
