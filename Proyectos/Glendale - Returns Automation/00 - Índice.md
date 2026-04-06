@@ -40,6 +40,7 @@ estado: En revisión
 - [[05 - Fuera de Alcance]]
 - [[06 - Pendientes y Supuestos]]
 - [[07 - Aprobaciones]]
+- [[09 - Historial de Versiones]]
 
 ---
 
