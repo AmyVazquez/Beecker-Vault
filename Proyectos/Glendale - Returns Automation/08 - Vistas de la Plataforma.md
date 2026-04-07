@@ -54,40 +54,82 @@ Este borrador describe el layout recomendado para la plataforma usando un enfoqu
 
 ### Summary
 
-La vista principal del dashboard es la entrada rápida para el negocio. No debe incluir controles de exportación CSV; ese tipo de acción corresponde a `Run history`.
+La vista principal del dashboard es la entrada rápida para el negocio.
 
-Debe incluir:
+#### Header
 
-- Cards de KPI en la parte superior.
-  - Cada card es un KPI principal y debe ser visible desde el primer vistazo.
-  - Cards: `Total Returns`, `Auto-approved`, `Manual review`, `Active Returns`.
-  - Cálculos sugeridos:
-    - `Total Returns`: conteo de registros en `tbl_return_form_users` dentro del período seleccionado.
-    - `Auto-approved`: conteo de devoluciones que el agente finalizó automáticamente según las reglas de negocio.
-      - Si el dato no está en `tbl_return_form_users`, debe obtenerse de la lógica del agente o de una tabla de eventos de ejecución.
-    - `Manual review`: conteo de devoluciones que requieren intervención humana o revisión interna.
-    - `Active Returns`: número absoluto de devoluciones con status `Pending`, `Needs Attention` o `Approved` (ej. "18 Active Returns"). Se omite `Completed` por ser un estado independiente. Se muestra como conteo, no como porcentaje.
-- Gráfica de tendencia central.
-  - Línea de evolución de devoluciones recibidas, procesadas y aprobadas por día/mes.
-- Panel de métricas secundarias.
-  - Métricas: `Auto-approval rate`, `Manual review rate`, `Average processing time`.
-  - Cálculos sugeridos:
-    - `Auto-approval rate` = `Auto-approved` / `Total Returns` * 100.
-    - `Manual review rate` = `Manual review` / `Total Returns` * 100.
-    - `Average processing time` = promedio del tiempo entre `created_at` y `updated_at` para devoluciones completadas, expresado por devolución (ej. "2 min por devolución").
-- Panel de proceso / etapas de la devolución.
-  - Debe ser un flujo visual con los estados del proceso y, donde sea posible, con los conteos actuales de devoluciones en cada etapa.
-  - Etapas: `Request submitted`, `Information review`, `Needs Attention`, `Approval decision`, `Processing & Execution`.
-  - El estado `Completed` se omite de este panel por ser un estado independiente.
-- Transacciones activas.
-  - Lista o tarjetas con devoluciones en curso, estado actual y etapa; puede indicar quién está a cargo o si es revisión automática vs. manual.
-- Pie chart de tipo de devolución.
-  - Distribución de devoluciones por tipo dentro del período seleccionado.
-  - Tipos (según PDD): `Damaged Goods`, `Manufacturer Defect`, `Wrong Item`, `Refund`, `Missing Item`.
-- Transacciones mensuales.
-  - Donut o mini-panel con conteo de devoluciones completadas, pendientes y sobre límite.
+- Nombre del agente: `Ryan` con subtítulo `Returns Automation` y avatar.
+- Botones visibles: `Run History` y `Select Month`.
+- No incluye botón de exportación CSV; esa acción pertenece a `Run history`.
 
-> El dashboard debe seguir el ejemplo visual: cards KPI arriba, trend chart al centro, proceso de flujo intermedio y paneles de transacciones activas / mensuales a la derecha o abajo.
+#### Cards de KPI
+
+Cuatro cards en fila horizontal, cada una con icono, etiqueta y valor:
+
+| Card | Valor mostrado | Cálculo |
+|---|---|---|
+| `Total Returns` | Número absoluto (ej. 142) | Conteo de registros en `tbl_return_form_users` dentro del período seleccionado. |
+| `Auto-approved` | Porcentaje (ej. 78%) | `Auto-approved` / `Total Returns` * 100. Si el dato no está en `tbl_return_form_users`, obtener de la lógica del agente o tabla de eventos. |
+| `Manual review` | Porcentaje (ej. 18%) | `Manual review` / `Total Returns` * 100. Devoluciones que requieren intervención humana. |
+| `Active Returns` | Número absoluto (ej. 32) | Devoluciones con status `Pending`, `Needs Attention` o `Approved`. Se omite `Completed`. |
+
+#### Gráfica de tendencia
+
+- Título: **Returns volume over time**
+- Subtítulo: *Daily return activity and processing trends*
+- Tipo: línea con 3 series: `Received`, `Processed`, `Approved`.
+- Eje X: días de la semana (o días del mes según filtro activo).
+- Ocupa el ancho central de la vista, con el panel de métricas secundarias a la derecha.
+
+#### Panel de métricas secundarias
+
+Ubicado a la derecha de la gráfica de tendencia. Tres métricas con barra de progreso y valor porcentual:
+
+| Métrica | Cálculo |
+|---|---|
+| `Auto-approval rate` | `Auto-approved` / `Total Returns` * 100 |
+| `Manual review rate` | `Manual review` / `Total Returns` * 100 |
+| `Average processing time` | Promedio del tiempo entre `created_at` y `updated_at` para devoluciones completadas, expresado en minutos (ej. "45 min"). |
+
+#### Return process flow
+
+- Título: **Return process flow**
+- Subtítulo: *End-to-end lifecycle of a return request*
+- Tipo: timeline horizontal con 3 nodos conectados por línea.
+- Los títulos coinciden exactamente con las etapas definidas en `Transaction Details`.
+
+| Etapa | Mini descripción |
+|---|---|
+| **Return in queue** | ej. "5 returns pending" |
+| **Return in validation** | ej. "3 returns under review" |
+| **Approved & In execution** | ej. "2 returns in process" |
+
+
+#### Active transaction
+
+- Título: **Active transaction**
+- Subtítulo: *Actualmente en proceso*
+- Lista de devoluciones activas. Cada ítem muestra:
+  - Número de transacción (ej. `RTN-001042`)
+  - Nombre del usuario (ej. Mariana Gonzales Béjar)
+  - `Return type` (ej. Damage goods)
+  - Badge de etapa actual (ej. `Return in validation`, `Return in queue`) — mismo naming que el panel de proceso.
+  - Barra de progreso.
+  - Flecha `→` para abrir el detalle de la transacción.
+- Botón `Mostrar más` al final de la lista — redirige a la vista `Run history`.
+
+#### Donut chart — Tipo de devolución
+
+- Título: **Tipo de devolución**
+- Tipo: gráfica de dona (donut), no pie chart.
+- El centro muestra el tipo seleccionado / destacado y su conteo (ej. "025 / Damaged goods").
+- Leyenda debajo con conteo por tipo:
+  - `Damaged goods`
+  - `Manufacturer defect`
+  - `Wrong item`
+  - `Refund`
+  - `Missing item`
+- No muestra desglose por status; solo conteo absoluto por tipo de devolución.
 
 ### Run history
 
@@ -104,21 +146,21 @@ Esta vista muestra el histórico de todas las devoluciones registradas y permite
 
 #### Columnas de la tabla
 
-| #  | Columna BD                 | Etiqueta visual   | Ejemplo                  | Posibles valores / Notas                                                                                                                                                             |
-| -- | -------------------------- | ----------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1  | `user_id`                  | User ID           | 001                      | numérico único                                                                                                                                                                       |
-| 2  | `first_name` + `last_name` | User Name         | Juan Pérez               | concatenación de ambos campos de `tbl_return_form_users`                                                                                                                             |
-| 3  | `order_no`                 | No Order          | 123456                   | texto/número de orden                                                                                                                                                                |
-| 4  | `invoice_no`               | No Invoice        | INV-2026-001             | texto/número de factura                                                                                                                                                              |
-| 5  | `return_current_date`      | Return Date       | 2026-04-02               | fecha (`YYYY-MM-DD`)                                                                                                                                                                 |
-| 6  | `status` numérico          | Status            | badge coloreado          | 0 = Pending – Missing Info;<br>1 = Pending – Complete Info;<br>2 = Needs Attention;<br>3 = Approved;<br>Rejected = sin valor numérico mapeado aún (asignado por almacén o aprobador) |
-| 7  | `return_for`               | Return For        | —                        | campo actualmente sin uso / pendiente de definición                                                                                                                                  |
-| 8  | `return_type`              | Return Type       | Refund                   | Damaged Goods / Manufacturer Defect / Wrong Item / Refund / Missing Item                                                                                                             |
-| 9  | `item_name`                | Item Name         | Camiseta                 | texto descriptivo del producto (`tbl_item_list`)                                                                                                                                     |
-| 10 | `reason_for_return`        | Reason for Return | Defectuoso               | Defectuoso / Incorrecto / Faltante / Otro (`tbl_item_list`)                                                                                                                          |
-| 11 | `quantity_returned`        | Quantity Returned | 1                        | entero positivo (`tbl_item_list`)                                                                                                                                                    |
-| 12 | `email_address`            | Email Address     | cliente@correo.com       | correo electrónico válido                                                                                                                                                            |
-| 13 | `comments`                 | Comments          | Cliente no quiere cambio | texto libre                                                                                                                                                                          |
+| #   | Columna BD                 | Etiqueta visual   | Ejemplo                  | Posibles valores / Notas                                                                                                                                                             |
+| --- | -------------------------- | ----------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | `user_id`                  | User ID           | 001                      | numérico único                                                                                                                                                                       |
+| 2   | `first_name` + `last_name` | User Name         | Juan Pérez               | concatenación de ambos campos de `tbl_return_form_users`                                                                                                                             |
+| 3   | `order_no`                 | No Order          | 123456                   | texto/número de orden                                                                                                                                                                |
+| 4   | `invoice_no`               | No Invoice        | INV-2026-001             | texto/número de factura                                                                                                                                                              |
+| 5   | `return_current_date`      | Return Date       | 2026-04-02               | fecha (`YYYY-MM-DD`)                                                                                                                                                                 |
+| 6   | `status` numérico          | Status            | badge coloreado          | 0 = Pending – Missing Info;<br>1 = Pending – Complete Info;<br>2 = Needs Attention;<br>3 = Approved;<br>Rejected = sin valor numérico mapeado aún (asignado por almacén o aprobador) |
+| 7   | `return_for`               | Return For        | —                        | campo actualmente sin uso / pendiente de definición                                                                                                                                  |
+| 8   | `return_type`              | Return Type       | Refund                   | Damaged Goods / Manufacturer Defect / Wrong Item / Refund / Missing Item                                                                                                             |
+| 9   | `item_name`                | Item Name         | Camiseta                 | texto descriptivo del producto (`tbl_item_list`)                                                                                                                                     |
+| 10  | `reason_for_return`        | Reason for Return | Defectuoso               | Defectuoso / Incorrecto / Faltante / Otro (`tbl_item_list`)                                                                                                                          |
+| 11  | `quantity_returned`        | Quantity Returned | 1                        | entero positivo (`tbl_item_list`)                                                                                                                                                    |
+| 12  | `email_address`            | Email Address     | cliente@correo.com       | correo electrónico válido                                                                                                                                                            |
+| 13  | `comments`                 | Comments          | Cliente no quiere cambio | texto libre                                                                                                                                                                          |
 
 > Columnas excluidas de esta vista (disponibles en Transaction Details): `exchange_item`, `address`, `created_at`, `updated_at`.
 
@@ -132,53 +174,138 @@ Esta vista muestra el histórico de todas las devoluciones registradas y permite
 | `Approved`                | Verde           | `#217E25` |
 | `Rejected`                | Rojo            | `#BC2A2A` |
 
-> Nota: el orden de columnas en esta tabla refleja el orden observado en el diseño de Lucas (`Lucas - Run history.png`) y debe respetarse en la implementación.
+> **Sobre el status `Rejected`:** No corresponde a un valor numérico en la BD — es un estado que puede asignarse manualmente por el equipo de almacén o por un aprobador interno de Glendale cuando una devolución no cumple los criterios de aceptación. Se incluye en esta tabla como referencia visual para cuando se implemente su mapeo en el sistema.
+
+> Nota: el orden de columnas en esta tabla refleja el orden observado en el diseño de Ryan (`Ryan - Run history.png`) y debe respetarse en la implementación.
 
 
 ### Transaction details
 
-Al hacer clic en una fila del `Run history`, se abre la vista de detalle de la transacción.
+Al hacer clic en una fila del `Run history`, se abre la vista de detalle de la transacción. Contiene cuatro secciones:
 
-Debe contener:
+1. **Transaction details** — todos los campos de la devolución seleccionada.
+2. **Processing timeline** — timeline con las 3 etapas del proceso y sus flags de estado.
+3. **Email communications** — bandeja de correos enviados relacionados a la devolución.
+4. **Return photos** — imágenes adjuntas de la devolución.
 
-- **Header / resumen**: misma información que aparece en `Run history` para la devolución seleccionada, incluyendo los campos excluidos de esa tabla (`exchange_item`, `address`, `created_at`, `updated_at`).
-- **Banderas del proceso**: timeline con 3 etapas principales, cada una con sus sub-estados.
-- **Seguimiento de comunicaciones por correo**: bandeja colapsable con los correos enviados relacionados a la devolución.
-- **Fotos de la devolución**: espacio para mostrar imágenes adjuntas relacionadas (pendiente de definición técnica).
+---
 
-#### Banderas del proceso
+#### 1. Transaction details
 
-Las 3 etapas principales y sus sub-estados son:
+Muestra los 17 campos de la devolución seleccionada, en formato de ficha de lectura:
 
-**1. Devolución en bandeja** *(status: Pending)*
-- Devolución recién ingresada, sin procesar.
-- Devolución con información incompleta (pendiente de completar por el cliente).
-- Devolución con información completa, pendiente de que inicie el flujo del día.
+| Campo BD                   | Etiqueta visual   | Ejemplo                       |
+| -------------------------- | ----------------- | ----------------------------- |
+| `user_id`                  | User ID           | RTN-001042                    |
+| `first_name` + `last_name` | User Name         | Mariana Gonzales Béjar        |
+| `order_no`                 | No Order          | 123456                        |
+| `invoice_no`               | No Invoice        | INV-2026-095                  |
+| `return_current_date`      | Return Date       | 2026-03-30                    |
+| `status`                   | Status            | Pending – Missing Info        |
+| `return_for`               | Return For        | N/A                           |
+| `return_type`              | Return Type       | Damaged Goods                 |
+| `item_name`                | Item Name         | Camiseta                      |
+| `exchange_item`            | Exchange Item     | Camiseta alterna              |
+| `reason_for_return`        | Reason for Return | Defective                     |
+| `quantity_returned`        | Quantity Returned | 3                             |
+| `created_at`               | Created At        | 2026-03-30 14:50:55           |
+| `updated_at`               | Updated At        | 2026-03-30 15:50:55           |
+| `email_address`            | Email Address     | mariana@gmail.com             |
+| `address`                  | Address           | 742 Evergreen Terrace, Apt 62 |
+| `comments`                 | Comments          | Cliente no quiere cambio      |
 
-**2. Devolución en validación** *(status: Needs Attention)*
-- En validación de monto (automática o manual según umbral).
-- Pendiente de revisión por humano — notificación levantada al equipo de Glendale.
-- Pendiente de nueva información del cliente — correo de seguimiento enviado.
-- Devolución validada (o rechazada — fin del proceso).
+---
 
-**3. Devolución aprobada y en ejecución** *(status: Approved)*
-- Generar shipping label UPS *(solo aplica para: Damaged Goods, Manufacturer Defect, Wrong Item — no aplica para Refund ni Missing Item)*.
-- Ingresar devolución al ERP/MOM.
-- Email enviado al cliente.
-- Devolución resuelta.
+#### 2. Processing timeline
 
-#### Seguimiento de comunicaciones por correo
+Timeline horizontal con 3 etapas. Cada etapa muestra sus flags (sub-estados) indicando en cuál se encuentra actualmente la devolución.
 
-Sección tipo "bandeja de entrada" que muestra los correos enviados relacionados a esta devolución:
+**Etapa 1 — Devolución en bandeja / Return in Queue** *(status: Pending)*
 
-- Cada correo aparece como un ítem colapsable con asunto, fecha y destinatario visibles.
-- Al expandir, muestra el cuerpo completo del correo enviado.
-- Reemplaza el enfoque de chat; documenta las comunicaciones reales del agente hacia el cliente o el equipo.
+- Devolución nueva con información incompleta / New return with incomplete information.
+- Devolución nueva con información completa, pendiente de que inicie el flujo del día / New return with complete information, awaiting daily flow initiation.
 
-#### Fotos de la devolución
+**Etapa 2 — Devolución en validación / Return in Validation** *(status: Needs Attention)*
 
-- Espacio reservado para mostrar imágenes adjuntas a la devolución (ej. fotos del artículo dañado).
-- Pendiente de definición técnica: origen de las imágenes y cómo se vinculan al registro.
+- En validación de monto (automática o manual según umbral) / Amount validation in progress (automatic or manual, subject to threshold).
+- Pendiente de revisión por humano — notificación levantada al equipo de Glendale / Pending human review — notification raised to the Glendale team.
+- Pendiente de que el cliente envíe nueva información — correo de seguimiento enviado / Awaiting additional information from the client — follow-up email sent.
+- Devolución validada (o en todo caso rechazada — fin del proceso) / Return validated (or rejected — end of process).
+
+**Etapa 3 — Devolución aprobada y en ejecución / Return Approved & In Execution** *(status: Approved)*
+
+- Generar etiqueta de envío UPS / Generate UPS shipping label *(solo aplica para algunos tipos de return — checar PDD)*.
+
+> **Nota:** El agente genera la etiqueta vía UPS Web API, la guarda como PDF y la envía al cliente por correo. Aplica únicamente para Damaged Goods y Manufacturer Defect (ver [[F3 - Mercancía Dañada y Defecto de Fabricante]]) y Wrong Item (ver [[F4 - Artículo Incorrecto]]). Para los demás tipos la transacción no se cancela: en **Refund** (ver [[F5 - Reembolsos]]), el cliente devuelve el artículo a su propio costo sin etiqueta prepagada; en **Missing Item** (ver [[F6 - Artículo Faltante]]), no hay devolución del cliente — Glendale envía el artículo faltante como nuevo outbound order desde el almacén.
+
+- Ingresar devolución al ERP/MOM / Enter return into ERP/MOM.
+- Email enviado al cliente / Email sent to client.
+- Devolución resuelta / Return resolved.
+
+---
+
+#### 3. Email communications
+
+> **Pendiente:** El diseño de esta sección debe revisarse con Tony para definir cuál propuesta visual le agrada más antes de continuar con la implementación.
+
+Sección tipo bandeja de entrada que muestra los correos enviados por el agente relacionados a esta devolución. Ver referencia completa en [[F2 - Comunicaciones al Cliente]].
+
+##### Layout
+
+- Lista vertical de ítems, uno por correo enviado.
+- Cada ítem está colapsado por defecto y muestra en una sola línea:
+  - **Tipo de evento** (ej. `Needs Attention`, `Approved`, `Shipping label`, `Rejected`)
+  - **Destinatario** (email del cliente)
+  - **Fecha y hora de envío**
+- Al expandir el ítem, se muestra el cuerpo completo del correo enviado.
+- Los ítems se ordenan del más reciente al más antiguo.
+
+##### Tipos de correo que pueden aparecer
+
+| Tipo de evento | Cuándo se envía | Generado por |
+| -------------- | --------------- | ------------ |
+| `Needs Attention` | El cliente debe proveer información faltante para continuar. | LLM con contexto de comentarios de Glendale |
+| `Approved` | La devolución fue aprobada; incluye próximos pasos según tipo de return. | Template aprobado por Glendale |
+| `Shipping label` | Se adjunta la etiqueta de envío prepagada UPS. *(Solo para Damaged Goods, Manufacturer Defect y Wrong Item.)* | Template aprobado por Glendale |
+| `Rejected` | La devolución fue rechazada; incluye razón y opción de contacto. | LLM con contexto de comentarios de Glendale |
+
+##### Reglas de comportamiento
+
+- Los correos solo se envían en **horario laboral** (no en horario nocturno).
+- Si el cliente responde con una consulta compleja, el agente **no responde** — registra un flag en el historial y lo incluye en el resumen de notificación al equipo de Glendale.
+- El email del cliente se obtiene del campo `email_address` de `tbl_return_form_users`.
+
+---
+
+#### 4. Return photos
+
+Sección que muestra las imágenes adjuntas enviadas por el cliente relacionadas a la devolución.
+
+##### Propósito
+
+Permitir al equipo de Glendale visualizar evidencia visual del artículo (ej. fotos del daño, defecto o artículo incorrecto) sin salir de la vista de detalle de la transacción.
+
+##### Tipos de return que aplican
+
+| Return type | Fotos esperadas |
+| ----------- | --------------- |
+| `Damaged Goods` | Fotos del artículo dañado enviadas por el cliente. |
+| `Manufacturer Defect` | Fotos del defecto de fabricación. |
+| `Wrong Item` | Fotos del artículo recibido incorrecto. |
+| `Missing Item` | No aplica — no hay artículo que fotografiar. |
+| `Refund` | No aplica por definición del proceso. |
+
+##### Layout
+
+- Grid de miniaturas (thumbnails) de las imágenes adjuntas.
+- Al hacer clic en una miniatura, se abre la imagen en tamaño completo (lightbox o modal).
+- Si no hay imágenes adjuntas, mostrar estado vacío con mensaje: *"No photos attached to this return."*
+
+##### Pendientes de definición técnica
+
+> - **Origen de las imágenes:** aún no definido cómo el cliente adjunta las fotos (ej. formulario web, email, portal). Pendiente de alineación con Glendale.
+> - **Almacenamiento:** no definido dónde se guardan (ej. base de datos, bucket de archivos, servidor).
+> - **Vínculo al registro:** no definido cómo se relacionan las imágenes al `user_id` o `order_no` en `tbl_return_form_users`.
 
 ---
 
