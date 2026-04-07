@@ -148,9 +148,54 @@ Actualización importante del documento de vistas de la plataforma con ajuste de
 
 ---
 
+## v1.7 – 2026-04-06 10:43
+
+**Commit:** `0c4498b` — *"Add '09 - Historial de Versiones' document and update index with new version history link"*
+**Autor:** Amy Vazquez
+**Tipo:** Nuevo documento
+
+### Descripción
+Se incorpora el documento de historial de versiones del proyecto (`09 - Historial de Versiones.md`) con registro retroactivo desde la carga inicial (v1.0). También se actualiza el índice maestro con el enlace a la nueva sección.
+
+### Cambios
+- **Nuevo:** `09 - Historial de Versiones.md` — Historial completo desde v1.0 hasta v1.6 (180 líneas)
+- **Actualizado:** `00 - Índice.md` — Se agrega enlace a la sección de Historial de Versiones
+- **Actualizado:** `.obsidian/workspace.json`
+
+---
+
+## v1.8 – 2026-04-06 23:53
+
+**Commit:** `01fc31b` — *"Update dashboard view details for '08 - Vistas de la Plataforma' and adjust last open files in workspace"*
+**Autor:** Amy Vazquez
+**Tipo:** Actualización de documentación
+
+### Descripción
+Expansión y reestructuración significativa del documento de vistas de la plataforma. Se detallan con mayor profundidad los componentes de cada vista del dashboard.
+
+### Cambios
+- **Actualizado:** `08 - Vistas de la Plataforma.md` — Reestructuración y expansión mayor (+211 líneas añadidas, -83 eliminadas; net +128 líneas)
+- **Actualizado:** `.obsidian/workspace.json`
+
+---
+
+## v1.9 – 2026-04-07 00:08
+
+**Commit:** `a8e8709` — *"Refactor return types table and update layout for image attachments in dashboard"*
+**Autor:** Amy Vazquez
+**Tipo:** Refactor de documentación
+
+### Descripción
+Ajuste menor en el documento de vistas: se refactoriza la tabla de tipos de devolución y se corrige el layout de los adjuntos de imagen en el dashboard.
+
+### Cambios
+- **Actualizado:** `08 - Vistas de la Plataforma.md` — Refactor de tabla de tipos de devolución y layout de imágenes (+10 líneas, -9 eliminadas)
+
+---
+
 ## Estado Actual del Proyecto
 
-**Versión de documentación:** 1.6 (2026-04-06)
+**Versión de documentación:** 1.9 (2026-04-07)
 **Estado del PDD:** En revisión (`estado: En revisión` en frontmatter)
 **Pendientes bloqueantes antes de desarrollo:**
 - [ ] Confirmación umbral de auto-aprobación (Jose Barreto / CFO)
