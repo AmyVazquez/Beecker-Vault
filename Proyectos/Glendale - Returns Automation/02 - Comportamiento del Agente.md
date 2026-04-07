@@ -20,6 +20,8 @@ up: "[[00 - Índice]]"
    - Si el valor está **igual o por encima del umbral**: el Agente mueve a `Needs Attention` para revisión humana.
 7. **Procesamiento de `Needs Attention`**:
    - **Con comentarios del equipo** → el Agente genera un email al cliente con el motivo (via LLM), enviado en horario laboral. Status permanece `Needs Attention`.
+
+   > **Pendiente:** El rango exacto de horas del horario laboral no ha sido definido. Pendiente de alineación con Glendale.
    - **Sin comentarios** → el Agente notifica al equipo de Glendale que hay un pending sin acción. Status permanece `Needs Attention`.
 8. **Ejecución para `Approved`** – el Agente ejecuta el script correspondiente según el tipo de retorno (ver [[F3 - Mercancía Dañada y Defecto de Fabricante]], [[F4 - Artículo Incorrecto]], [[F5 - Reembolsos]], [[F6 - Artículo Faltante]]).
 9. **Integración MOM** – las acciones en MOM se disparan vía:

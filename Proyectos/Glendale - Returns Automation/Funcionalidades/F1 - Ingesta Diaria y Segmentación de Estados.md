@@ -49,6 +49,8 @@ Para cada registro, el Agente verifica si el equipo de Glendale agregó comentar
 | Comentarios presentes | Acción |
 |---|---|
 | **Sí** | Genera email al cliente (vía LLM con los comentarios como contexto) → envía en horario laboral → status permanece `Needs Attention` |
+
+> **Pendiente:** El rango exacto de horas del horario laboral no ha sido definido. Pendiente de alineación con Glendale.
 | **No** | Notificación interna al equipo de Glendale para que tome acción → sin email al cliente → status permanece `Needs Attention` |
 
 ---

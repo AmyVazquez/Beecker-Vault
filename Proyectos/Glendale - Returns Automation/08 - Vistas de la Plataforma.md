@@ -133,36 +133,36 @@ Ubicado a la derecha de la gráfica de tendencia. Tres métricas con barra de pr
 
 ### Run history
 
-> Referencia visual: `Lucas - Run history.png`
+> Referencia visual: captura de diseño de la plataforma (Ryan – Run history).
 
 Esta vista muestra el histórico de todas las devoluciones registradas y permite explorar cada transacción.
 
-#### Layout y controles (según diseño de Lucas)
+#### Layout y controles
 
-- Botón `< Returns List` en la esquina superior izquierda para regresar a la vista principal.
-- Barra de búsqueda global en la esquina superior derecha del header.
+- Botón `← Back to agent Ryan` en la esquina superior izquierda para regresar a la vista del agente.
+- Barra de búsqueda global en el centro del header.
+- Botón `Select month` en la esquina superior derecha — filtro de período, igual que en la vista Summary.
+- Botón `CSV` para exportar la tabla.
+- Selector `Items per page` (10 por defecto) en la esquina superior izquierda de la tabla.
 - Paginación numérica en la esquina superior derecha de la tabla.
 - Tabla de ancho completo con filas de fondo alternado.
 
 #### Columnas de la tabla
 
-| #   | Columna BD                 | Etiqueta visual   | Ejemplo                  | Posibles valores / Notas                                                                                                                                                             |
-| --- | -------------------------- | ----------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1   | `user_id`                  | User ID           | 001                      | numérico único                                                                                                                                                                       |
-| 2   | `first_name` + `last_name` | User Name         | Juan Pérez               | concatenación de ambos campos de `tbl_return_form_users`                                                                                                                             |
-| 3   | `order_no`                 | No Order          | 123456                   | texto/número de orden                                                                                                                                                                |
-| 4   | `invoice_no`               | No Invoice        | INV-2026-001             | texto/número de factura                                                                                                                                                              |
-| 5   | `return_current_date`      | Return Date       | 2026-04-02               | fecha (`YYYY-MM-DD`)                                                                                                                                                                 |
-| 6   | `status` numérico          | Status            | badge coloreado          | 0 = Pending – Missing Info;<br>1 = Pending – Complete Info;<br>2 = Needs Attention;<br>3 = Approved;<br>Rejected = sin valor numérico mapeado aún (asignado por almacén o aprobador) |
-| 7   | `return_for`               | Return For        | —                        | campo actualmente sin uso / pendiente de definición                                                                                                                                  |
-| 8   | `return_type`              | Return Type       | Refund                   | Damaged Goods / Manufacturer Defect / Wrong Item / Refund / Missing Item                                                                                                             |
-| 9   | `item_name`                | Item Name         | Camiseta                 | texto descriptivo del producto (`tbl_item_list`)                                                                                                                                     |
-| 10  | `reason_for_return`        | Reason for Return | Defectuoso               | Defectuoso / Incorrecto / Faltante / Otro (`tbl_item_list`)                                                                                                                          |
-| 11  | `quantity_returned`        | Quantity Returned | 1                        | entero positivo (`tbl_item_list`)                                                                                                                                                    |
-| 12  | `email_address`            | Email Address     | cliente@correo.com       | correo electrónico válido                                                                                                                                                            |
-| 13  | `comments`                 | Comments          | Cliente no quiere cambio | texto libre                                                                                                                                                                          |
+| #   | Columna BD                 | Etiqueta visual | Ejemplo                       | Posibles valores / Notas                                                                                                                                                             |
+| --- | -------------------------- | --------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | `user_id`                  | User ID         | RTN-00-001                    | formato `RTN-XX-XXX`                                                                                                                                                                 |
+| 2   | `first_name` + `last_name` | User Name       | Mariana Gonzales Béjar        | concatenación de ambos campos de `tbl_return_form_users`                                                                                                                             |
+| 3   | `order_no`                 | No Order        | 123456                        | texto/número de orden                                                                                                                                                                |
+| 4   | `return_current_date`      | Return Date     | 2026-03-30                    | fecha (`YYYY-MM-DD`)                                                                                                                                                                 |
+| 5   | `status` numérico          | Status          | badge coloreado               | 0 = Pending – Missing Info;<br>1 = Pending – Complete Info;<br>2 = Needs Attention;<br>3 = Approved;<br>Rejected = sin valor numérico mapeado aún (asignado por almacén o aprobador) |
+| 6   | `return_for`               | Return For      | N/A                           | campo actualmente sin uso / pendiente de definición                                                                                                                                  |
+| 7   | `return_type`              | Return Type     | Damaged goods                 | Damaged Goods / Manufacturer Defect / Wrong Item / Refund / Missing Item                                                                                                             |
+| 8   | `email_address`            | Email Address   | cliente@correo.com            | correo electrónico válido                                                                                                                                                            |
+| 9   | `address`                  | Address         | 742 Evergreen Terrace, Apt 62 | dirección física del cliente                                                                                                                                                         |
+| 10  | `comments`                 | Comments        | Cliente no quiere cambio      | texto libre                                                                                                                                                                          |
 
-> Columnas excluidas de esta vista (disponibles en Transaction Details): `exchange_item`, `address`, `created_at`, `updated_at`.
+> Columnas excluidas de esta vista (disponibles en Transaction Details): `invoice_no`, `item_name`, `reason_for_return`, `quantity_returned`, `exchange_item`, `created_at`, `updated_at`.
 
 #### Color de badges por estado
 
@@ -176,43 +176,58 @@ Esta vista muestra el histórico de todas las devoluciones registradas y permite
 
 > **Sobre el status `Rejected`:** No corresponde a un valor numérico en la BD — es un estado que puede asignarse manualmente por el equipo de almacén o por un aprobador interno de Glendale cuando una devolución no cumple los criterios de aceptación. Se incluye en esta tabla como referencia visual para cuando se implemente su mapeo en el sistema.
 
-> Nota: el orden de columnas en esta tabla refleja el orden observado en el diseño de Ryan (`Ryan - Run history.png`) y debe respetarse en la implementación.
+> Nota: el orden de columnas refleja el diseño observado en la captura de la plataforma y debe respetarse en la implementación.
 
 
 ### Transaction details
 
-Al hacer clic en una fila del `Run history`, se abre la vista de detalle de la transacción. Contiene cuatro secciones:
+Al hacer clic en una fila del `Run history`, se abre la vista de detalle de la transacción.
 
-1. **Transaction details** — todos los campos de la devolución seleccionada.
+#### Header de la vista
+
+- Botón `← Back to run history` en la esquina superior izquierda.
+- Badge de estado (`status`) en la esquina superior derecha, con el mismo color definido en Run history.
+
+La vista contiene cuatro secciones:
+
+1. **Transaction details** — campos principales de la devolución seleccionada.
 2. **Processing timeline** — timeline con las 3 etapas del proceso y sus flags de estado.
 3. **Email communications** — bandeja de correos enviados relacionados a la devolución.
-4. **Return photos** — imágenes adjuntas de la devolución.
+4. **Return photos** — archivos adjuntos de la devolución.
 
 ---
 
 #### 1. Transaction details
 
-Muestra los 17 campos de la devolución seleccionada, en formato de ficha de lectura:
+Muestra los campos principales en formato de grid de lectura. El `status` no aparece como campo dentro de la ficha — se muestra en el header de la vista.
 
-| Campo BD                   | Etiqueta visual   | Ejemplo                       |
-| -------------------------- | ----------------- | ----------------------------- |
-| `user_id`                  | User ID           | RTN-001042                    |
-| `first_name` + `last_name` | User Name         | Mariana Gonzales Béjar        |
-| `order_no`                 | No Order          | 123456                        |
-| `invoice_no`               | No Invoice        | INV-2026-095                  |
-| `return_current_date`      | Return Date       | 2026-03-30                    |
-| `status`                   | Status            | Pending – Missing Info        |
-| `return_for`               | Return For        | N/A                           |
-| `return_type`              | Return Type       | Damaged Goods                 |
-| `item_name`                | Item Name         | Camiseta                      |
-| `exchange_item`            | Exchange Item     | Camiseta alterna              |
-| `reason_for_return`        | Reason for Return | Defective                     |
-| `quantity_returned`        | Quantity Returned | 3                             |
-| `created_at`               | Created At        | 2026-03-30 14:50:55           |
-| `updated_at`               | Updated At        | 2026-03-30 15:50:55           |
-| `email_address`            | Email Address     | mariana@gmail.com             |
-| `address`                  | Address           | 742 Evergreen Terrace, Apt 62 |
-| `comments`                 | Comments          | Cliente no quiere cambio      |
+| Campo BD                   | Etiqueta visual | Ejemplo                       |
+| -------------------------- | --------------- | ----------------------------- |
+| `user_id`                  | User ID         | RTN-001042                    |
+| `first_name` + `last_name` | User Name       | Mariana Gonzales Béjar        |
+| `order_no`                 | No Order        | 123456                        |
+| `return_current_date`      | Return Date     | 2026-03-30                    |
+| `return_for`               | Return For      | N/A                           |
+| `return_type`              | Return Type     | Damaged Goods                 |
+| `exchange_item`            | Exchange Item   | Camiseta alterna              |
+| `created_at`               | Created At      | 2026-03-30 14:50:55           |
+| `updated_at`               | Updated At      | 2026-03-30 13:40:50           |
+| `email_address`            | Email Address   | mariana@gmail.com             |
+| `address`                  | Address         | 742 Evergreen Terrace, Apt 62 |
+| `comments`                 | Comments        | Cliente no quiere cambio      |
+
+> Campos excluidos de esta ficha: `invoice_no` (no visible en diseño), `status` (aparece en header).
+
+##### Sub-sección: Items
+
+Sección separada dentro de Transaction details que lista los artículos de la devolución. Soporta múltiples ítems por transacción.
+
+| Campo BD            | Etiqueta visual   | Ejemplo             |
+| ------------------- | ----------------- | ------------------- |
+| `item_name`         | Item Name         | Camiseta deportiva  |
+| `quantity_returned` | Quantity Returned | 2                   |
+
+> Cada fila corresponde a un ítem en `tbl_item_list` vinculado al `user_id`. El campo `reason_for_return` no se muestra en esta sub-sección.
 
 ---
 
@@ -221,6 +236,8 @@ Muestra los 17 campos de la devolución seleccionada, en formato de ficha de lec
 Timeline horizontal con 3 etapas. Cada etapa muestra sus flags (sub-estados) indicando en cuál se encuentra actualmente la devolución.
 
 **Etapa 1 — Devolución en bandeja / Return in Queue** *(status: Pending)*
+
+Siempre se muestra exactamente uno de los dos flags siguientes — nunca ambos al mismo tiempo:
 
 - Devolución nueva con información incompleta / New return with incomplete information.
 - Devolución nueva con información completa, pendiente de que inicie el flujo del día / New return with complete information, awaiting daily flow initiation.
@@ -246,19 +263,18 @@ Timeline horizontal con 3 etapas. Cada etapa muestra sus flags (sub-estados) ind
 
 #### 3. Email communications
 
-> **Pendiente:** El diseño de esta sección debe revisarse con Tony para definir cuál propuesta visual le agrada más antes de continuar con la implementación.
-
 Sección tipo bandeja de entrada que muestra los correos enviados por el agente relacionados a esta devolución. Ver referencia completa en [[F2 - Comunicaciones al Cliente]].
 
 ##### Layout
 
-- Lista vertical de ítems, uno por correo enviado.
+- Subtítulo fijo: *"Send communications related to this return"*
+- Lista vertical de ítems, uno por correo enviado, ordenados del más reciente al más antiguo.
 - Cada ítem está colapsado por defecto y muestra en una sola línea:
-  - **Tipo de evento** (ej. `Needs Attention`, `Approved`, `Shipping label`, `Rejected`)
-  - **Destinatario** (email del cliente)
-  - **Fecha y hora de envío**
-- Al expandir el ítem, se muestra el cuerpo completo del correo enviado.
-- Los ítems se ordenan del más reciente al más antiguo.
+  - **Nombre del cliente** (ej. `Mariana Gonzales`)
+  - **Badge de tipo de evento** (ej. `Shipping label`, `Approved`, `Needs Attention`, `Rejected`)
+  - **Asunto o preview del correo** (ej. `Prepaid Shipping Label fo...`)
+  - **Timestamp** (ej. `6:05 PM`, `Yesterday`, `Oct 24`)
+- Al expandir el ítem, se muestra el cuerpo completo del correo enviado, incluyendo archivos adjuntos si aplica (ej. etiqueta UPS en PDF).
 
 ##### Tipos de correo que pueden aparecer
 
@@ -272,6 +288,9 @@ Sección tipo bandeja de entrada que muestra los correos enviados por el agente 
 ##### Reglas de comportamiento
 
 - Los correos solo se envían en **horario laboral** (no en horario nocturno).
+
+> **Pendiente:** El rango exacto de horas del horario laboral no ha sido definido. Pendiente de alineación con Glendale.
+
 - Si el cliente responde con una consulta compleja, el agente **no responde** — registra un flag en el historial y lo incluye en el resumen de notificación al equipo de Glendale.
 - El email del cliente se obtiene del campo `email_address` de `tbl_return_form_users`.
 
@@ -297,10 +316,16 @@ Permitir al equipo de Glendale visualizar evidencia visual del artículo (ej. fo
 
 ##### Layout
 
-- Lista vertical de ítems, uno por imagen adjunta.
-- Cada ítem muestra en una sola línea: ícono de imagen, nombre del archivo y fecha de adjunto.
-- Al hacer clic en un ítem, se abre la imagen en tamaño completo (lightbox o modal).
-- Si no hay imágenes adjuntas, mostrar estado vacío con mensaje: *"No photos attached to this return."*
+- Botón `↓ Download` en la esquina superior derecha de la sección — descarga los archivos seleccionados.
+- Tabla con las siguientes columnas:
+
+| Columna          | Descripción                                              | Ejemplo          |
+| ---------------- | -------------------------------------------------------- | ---------------- |
+| *(checkbox)*     | Selección individual del archivo para descarga.          | ☐                |
+| Document name    | Nombre del archivo adjunto.                              | Foto Ejemplo.png |
+| Date of processing | Fecha en que se procesó o adjuntó el archivo.          | 25/12/2026       |
+
+- Si no hay archivos adjuntos, mostrar estado vacío con mensaje: *"No photos attached to this return."*
 
 ##### Pendientes de definición técnica
 
