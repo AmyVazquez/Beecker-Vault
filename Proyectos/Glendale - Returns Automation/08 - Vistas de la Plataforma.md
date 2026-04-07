@@ -287,18 +287,19 @@ Permitir al equipo de Glendale visualizar evidencia visual del artículo (ej. fo
 
 ##### Tipos de return que aplican
 
-| Return type | Fotos esperadas |
-| ----------- | --------------- |
-| `Damaged Goods` | Fotos del artículo dañado enviadas por el cliente. |
-| `Manufacturer Defect` | Fotos del defecto de fabricación. |
-| `Wrong Item` | Fotos del artículo recibido incorrecto. |
-| `Missing Item` | No aplica — no hay artículo que fotografiar. |
-| `Refund` | No aplica por definición del proceso. |
+| Return type           | Fotos esperadas                                    |
+| --------------------- | -------------------------------------------------- |
+| `Damaged Goods`       | Fotos del artículo dañado enviadas por el cliente. |
+| `Manufacturer Defect` | Fotos del defecto de fabricación.                  |
+| `Wrong Item`          | Fotos del artículo recibido incorrecto.            |
+| `Missing Item`        | No aplica — no hay artículo que fotografiar.       |
+| `Refund`              | No aplica por definición del proceso.              |
 
 ##### Layout
 
-- Grid de miniaturas (thumbnails) de las imágenes adjuntas.
-- Al hacer clic en una miniatura, se abre la imagen en tamaño completo (lightbox o modal).
+- Lista vertical de ítems, uno por imagen adjunta.
+- Cada ítem muestra en una sola línea: ícono de imagen, nombre del archivo y fecha de adjunto.
+- Al hacer clic en un ítem, se abre la imagen en tamaño completo (lightbox o modal).
 - Si no hay imágenes adjuntas, mostrar estado vacío con mensaje: *"No photos attached to this return."*
 
 ##### Pendientes de definición técnica
