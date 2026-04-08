@@ -1,0 +1,55 @@
+<!-- KPI Cards: 4 métricas principales — datos dummy hasta conectar API -->
+<div class="kpi-cards">
+
+  @if (isLoading()) {
+    @for (i of [1,2,3,4]; track i) {
+      <div class="kpi-card kpi-card--loading">
+        <div class="kpi-card__skeleton kpi-card__skeleton--icon"></div>
+        <div class="kpi-card__body">
+          <div class="kpi-card__skeleton kpi-card__skeleton--label"></div>
+          <div class="kpi-card__skeleton kpi-card__skeleton--value"></div>
+        </div>
+      </div>
+    }
+  }
+
+  @if (!isLoading() && kpis()) {
+
+    <!-- 🔌 kpis().totalReturns → COUNT(*) FROM tbl_return_form_users WHERE period=month -->
+    <div class="kpi-card">
+      <div class="kpi-card__header">
+        <img src="images/Total returns.png" alt="" class="kpi-card__icon" />
+        <span class="kpi-card__label">Total returns</span>
+      </div>
+      <span class="kpi-card__value">{{ kpis()!.totalReturns }}</span>
+    </div>
+
+    <!-- 🔌 kpis().autoApprovedPct → % procesados automáticamente en el período -->
+    <div class="kpi-card">
+      <div class="kpi-card__header">
+        <img src="images/Auto-pproved.png" alt="" class="kpi-card__icon" />
+        <span class="kpi-card__label">Auto-approved</span>
+      </div>
+      <span class="kpi-card__value">{{ kpis()!.autoApprovedPct }}%</span>
+    </div>
+
+    <!-- 🔌 kpis().manualReviewPct → % con status NeedsAttention en el período -->
+    <div class="kpi-card">
+      <div class="kpi-card__header">
+        <img src="images/Manual review.png" alt="" class="kpi-card__icon" />
+        <span class="kpi-card__label">Manual review</span>
+      </div>
+      <span class="kpi-card__value">{{ kpis()!.manualReviewPct }}%</span>
+    </div>
+
+    <!-- 🔌 kpis().activeReturns → COUNT status IN (0,1,2,3) activos ahora -->
+    <div class="kpi-card">
+      <div class="kpi-card__header">
+        <img src="images/Active returns.png" alt="" class="kpi-card__icon" />
+        <span class="kpi-card__label">Active returns</span>
+      </div>
+      <span class="kpi-card__value">{{ kpis()!.activeReturns }}</span>
+    </div>
+
+  }
+</div>

@@ -1,0 +1,119 @@
+/* ProcessingTimeline — timeline vertical con 3 etapas */
+:host { display: block; }
+
+.card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 20px;
+  }
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 16px;
+
+  /* Etapa actual: resaltada */
+  &--current .stage__dot {
+    background: #1976d2;
+    border-color: #1976d2;
+  }
+
+  /* Etapa completada: verde */
+  &--completed .stage__dot {
+    background: #217E25;
+    border-color: #217E25;
+  }
+
+  &__indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #e0e0e0;
+    background: #ffffff;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* Línea vertical entre etapas */
+  &__line {
+    width: 2px;
+    flex: 1;
+    background: #e0e0e0;
+    margin: 4px 0;
+    min-height: 20px;
+  }
+
+  &__content {
+    padding-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  &__title-es {
+    font-size: 0.75rem;
+    color: #999;
+    font-style: italic;
+  }
+
+  &__flags {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+/* Flag individual de una etapa */
+.flag {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #999;
+
+  /* Flag activo: resaltado */
+  &--active {
+    color: #1a1a1a;
+    font-weight: 500;
+
+    .flag__dot { color: #1976d2; }
+  }
+
+  &__dot {
+    font-size: 0.6rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+    color: #ccc;
+  }
+
+  &__text { line-height: 1.4; }
+}

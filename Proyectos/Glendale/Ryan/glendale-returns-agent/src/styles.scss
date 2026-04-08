@@ -1,0 +1,128 @@
+/* ─── Estilos globales — Glendale Returns Dashboard ─────────────────────────
+   Tokens de diseño extraídos del Figma: Dashboard 2025 / 👤 - Cliente Glendale
+   Fuente: Roboto (via Google Fonts)
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* ── Variables CSS (Design Tokens) ────────────────────────────────────────── */
+:root {
+  /* Colores de marca */
+  --color-primary:      #7654c8;   /* Morado principal */
+  --color-primary-dark: #5e3fb3;
+  --color-primary-light:#f0ecfa;   /* Fondo hover morado */
+
+  /* Fondo de página — lavanda muy claro */
+  --color-bg-page:  #f4f6fd;
+  --color-bg-card:  #ffffff;
+
+  /* Texto */
+  --color-text-primary:   #595959;
+  --color-text-secondary: #8c8c8c;
+  --color-text-muted:     #b0b0b0;
+
+  /* Bordes */
+  --color-border: #e8e8f0;
+
+  /* Status badges */
+  --color-pending-missing:  #e07c3a;   /* Naranja */
+  --color-pending-complete: #7654c8;   /* Morado */
+  --color-needs-attention:  #d94f4f;   /* Rojo */
+  --color-approved:         #2e9e44;   /* Verde */
+  --color-rejected:         #bc2a2a;   /* Rojo oscuro */
+
+  /* Sombras */
+  --shadow-card: 0 1px 4px rgba(0,0,0,0.06), 0 0 1px rgba(0,0,0,0.04);
+
+  /* Espaciado */
+  --radius-card: 10px;
+  --padding-page: 24px;
+}
+
+/* ── Reset y base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  background: var(--color-bg-page);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Utilidades de card compartidas ──────────────────────────────────────── */
+.card {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Botones base ─────────────────────────────────────────────────────────── */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Botón ghost (outline morado) */
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  color: var(--color-text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+
+  &:hover { background: #f5f5f5; }
+}
+
+/* Botón primary morado */
+.btn-primary {
+  background: var(--color-primary);
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  &:hover { background: var(--color-primary-dark); }
+}
+
+/* ── Status badges compartidos ────────────────────────────────────────────── */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+
+  &.pending-missing  { background: #fef0e7; color: var(--color-pending-missing); }
+  &.pending-complete { background: var(--color-primary-light); color: var(--color-primary); }
+  &.needs-attention  { background: #fdeaea; color: var(--color-needs-attention); }
+  &.approved         { background: #e8f5ea; color: var(--color-approved); }
+  &.rejected         { background: #fdeaea; color: var(--color-rejected); }
+}
+
+/* ── Scrollbar personalizado ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d0d0d0; border-radius: 3px; }

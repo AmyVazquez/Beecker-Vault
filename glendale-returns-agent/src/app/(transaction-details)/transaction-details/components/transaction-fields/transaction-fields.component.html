@@ -1,0 +1,43 @@
+<!-- Sección 1: Campos principales de la devolución -->
+<div class="transaction-fields card">
+  <h3 class="card__title">Transaction details</h3>
+
+  <!-- Grid de campos de lectura -->
+  <div class="fields-grid">
+    <div class="field"><span class="field__label">User ID</span><span class="field__value">{{ data().userId }}</span></div>
+    <div class="field"><span class="field__label">User Name</span><span class="field__value">{{ fullName }}</span></div>
+    <div class="field"><span class="field__label">No Order</span><span class="field__value">{{ data().orderNo }}</span></div>
+    <div class="field"><span class="field__label">Return Date</span><span class="field__value">{{ data().returnCurrentDate }}</span></div>
+    <div class="field"><span class="field__label">Return For</span><span class="field__value">{{ data().returnFor || 'N/A' }}</span></div>
+    <div class="field"><span class="field__label">Return Type</span><span class="field__value">{{ data().returnType | returnType }}</span></div>
+    <div class="field"><span class="field__label">Exchange Item</span><span class="field__value">{{ data().exchangeItem || '—' }}</span></div>
+    <div class="field"><span class="field__label">Created At</span><span class="field__value">{{ data().createdAt }}</span></div>
+    <div class="field"><span class="field__label">Updated At</span><span class="field__value">{{ data().updatedAt }}</span></div>
+    <div class="field"><span class="field__label">Email Address</span><span class="field__value">{{ data().emailAddress }}</span></div>
+    <div class="field field--full"><span class="field__label">Address</span><span class="field__value">{{ data().address }}</span></div>
+    <div class="field field--full"><span class="field__label">Comments</span><span class="field__value">{{ data().comments || '—' }}</span></div>
+  </div>
+
+  <!-- Sub-sección: Items de la devolución (de tbl_item_list) -->
+  @if (data().items.length > 0) {
+    <div class="items-section">
+      <h4 class="items-section__title">Items</h4>
+      <table class="items-table">
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Quantity Returned</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of data().items; track item.itemName) {
+            <tr>
+              <td>{{ item.itemName }}</td>
+              <td>{{ item.quantityReturned }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

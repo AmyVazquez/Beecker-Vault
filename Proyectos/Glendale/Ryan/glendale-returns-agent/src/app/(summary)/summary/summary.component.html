@@ -1,0 +1,66 @@
+<!-- Vista principal: Summary Dashboard -->
+<div class="summary-page">
+
+  <!-- ── Header: identidad del agente + botones de acción ── -->
+  <div class="summary-page__header">
+
+    <!-- Card con foto + nombre del agente -->
+    <div class="agent-card">
+      <img class="agent-card__photo"
+           src="images/ryan.png"
+           alt="Ryan" />
+      <div class="agent-card__info">
+        <span class="agent-card__name">Ryan</span>
+        <span class="agent-card__sub">Returns Automation</span>
+      </div>
+      <svg class="agent-card__chevron" viewBox="0 0 10 6" fill="none">
+        <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- Botones del lado derecho -->
+    <div class="summary-page__actions">
+
+      <!-- Botón secundario: navega al historial de ejecuciones -->
+      <button class="btn-history" (click)="goToRunHistory()">
+        <img src="images/Runhistory.png" alt="" style="width:20px;height:20px;object-fit:contain" />
+        Run history
+      </button>
+
+      <!-- Filtro de mes: estilo chip morado con ícono de calendario -->
+      <app-month-selector
+        [selectedMonth]="selectedMonth() ?? ''"
+        (monthChange)="onMonthChange($event)"
+      />
+
+    </div>
+  </div>
+
+  <!-- ── KPI Cards ── -->
+  <app-kpi-cards [kpis]="kpis()" [isLoading]="isLoadingFiltered()" />
+
+  <!-- ── Gráfica + métricas secundarias (una sola card) ── -->
+  <div class="chart-section">
+    <app-trend-chart [data]="trendData()" [isLoading]="isLoadingFiltered()" />
+    <app-secondary-metrics [metrics]="secondaryMetrics()" [isLoading]="isLoadingFiltered()" />
+  </div>
+
+  <!-- ── Process flow + Transacciones / Donut chart ── -->
+  <div class="summary-page__bottom">
+
+    <div class="summary-page__bottom-left">
+      <app-process-flow [counts]="stageCounts()" [isLoading]="isLoadingRealtime()" />
+      <app-active-transactions
+        [returns]="activeReturns()"
+        [isLoading]="isLoadingRealtime()"
+        (transactionClick)="onTransactionClick($event)"
+      />
+    </div>
+
+    <div class="summary-page__bottom-right">
+      <app-donut-chart [data]="returnTypeCounts()" [isLoading]="isLoadingFiltered()" />
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,32 @@
+/* Transaction Details Page */
+:host { display: block; }
+
+.transaction-details-page {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 1200px;
+}
+
+/* Barra superior: back + status badge */
+.td-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+
+    &:hover { color: var(--color-primary); }
+    svg { width: 16px; height: 16px; }
+  }
+}

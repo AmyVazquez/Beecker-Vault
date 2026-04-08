@@ -1,0 +1,61 @@
+<!-- Vista principal: Summary -->
+<!-- Layout: header → KPIs → gráfica + métricas → proceso → transacciones activas + donut -->
+
+<!-- Header con nombre del agente y botones de acción -->
+<app-page-header
+  (runHistoryClick)="goToRunHistory()"
+/>
+
+<!-- Selector de mes — posicionado en el header area -->
+<div class="summary__controls">
+  <app-month-selector
+    [selectedMonth]="selectedMonth()"
+    (monthChange)="onMonthChange($event)"
+  />
+</div>
+
+<!-- Mensaje de error global si falla alguna llamada al API -->
+@if (error()) {
+  <div class="summary__error">{{ error() }}</div>
+}
+
+<main class="summary__content">
+
+  <!-- Sección 1: Cards de KPI (4 tarjetas en fila) -->
+  @if (kpiData()) {
+    <app-kpi-cards [data]="kpiData()!" />
+  }
+
+  <!-- Sección 2: Gráfica de tendencia + métricas secundarias lado a lado -->
+  <div class="summary__charts-row">
+    <div class="summary__trend">
+      <app-trend-chart [data]="trendData()" />
+    </div>
+    <div class="summary__metrics">
+      @if (secondaryMetrics()) {
+        <app-secondary-metrics [data]="secondaryMetrics()!" />
+      }
+    </div>
+  </div>
+
+  <!-- Sección 3: Timeline del proceso de devoluciones -->
+  @if (stageCounts()) {
+    <app-process-flow [stageCounts]="stageCounts()!" />
+  }
+
+  <!-- Sección 4: Transacciones activas + Donut chart lado a lado -->
+  <div class="summary__bottom-row">
+    <div class="summary__active">
+      <app-active-transactions
+        [returns]="activeReturns()"
+        [isLoading]="isLoading()"
+        (viewDetail)="goToDetail($event)"
+        (viewAll)="goToRunHistory()"
+      />
+    </div>
+    <div class="summary__donut">
+      <app-donut-chart [data]="returnTypeCounts()" />
+    </div>
+  </div>
+
+</main>

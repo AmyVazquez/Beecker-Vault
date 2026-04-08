@@ -1,0 +1,41 @@
+<!-- Panel de métricas secundarias con barras de progreso -->
+<div class="secondary-metrics">
+  <h3 class="secondary-metrics__title">Processing metrics</h3>
+
+  <!-- Auto-approval rate -->
+  <div class="metric">
+    <div class="metric__header">
+      <span class="metric__label">Auto-approval rate</span>
+      <span class="metric__value">{{ data().autoApprovalRate }}%</span>
+    </div>
+    <div class="metric__bar">
+      <div class="metric__fill metric__fill--auto" [style.width.%]="data().autoApprovalRate"></div>
+    </div>
+  </div>
+
+  <!-- Manual review rate -->
+  <div class="metric">
+    <div class="metric__header">
+      <span class="metric__label">Manual review rate</span>
+      <span class="metric__value">{{ data().manualReviewRate }}%</span>
+    </div>
+    <div class="metric__bar">
+      <div class="metric__fill metric__fill--manual" [style.width.%]="data().manualReviewRate"></div>
+    </div>
+  </div>
+
+  <!-- Average processing time — se muestra en minutos -->
+  <div class="metric">
+    <div class="metric__header">
+      <span class="metric__label">Avg processing time</span>
+      <span class="metric__value">{{ data().avgProcessingTimeMinutes }} min</span>
+    </div>
+    <!-- La barra muestra el tiempo relativo — 120 min como máximo referencial -->
+    <div class="metric__bar">
+      <div
+        class="metric__fill metric__fill--time"
+        [style.width.%]="(data().avgProcessingTimeMinutes / 120) * 100 | number:'1.0-0'"
+      ></div>
+    </div>
+  </div>
+</div>

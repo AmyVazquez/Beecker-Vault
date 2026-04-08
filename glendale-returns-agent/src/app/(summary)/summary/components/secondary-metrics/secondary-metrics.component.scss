@@ -1,0 +1,62 @@
+/* SecondaryMetrics — panel con barras de progreso */
+:host { display: block; }
+
+.secondary-metrics {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+  }
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__label {
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  &__value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  /* Barra de progreso */
+  &__bar {
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  &__fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s ease;
+    max-width: 100%; /* Evita que pase de 100% */
+
+    &--auto   { background: #217E25; } /* Verde — auto-aprobadas */
+    &--manual { background: #803FE0; } /* Morado — revisión manual */
+    &--time   { background: #1976d2; } /* Azul — tiempo de procesamiento */
+  }
+}

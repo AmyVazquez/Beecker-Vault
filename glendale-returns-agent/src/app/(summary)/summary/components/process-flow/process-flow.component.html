@@ -1,0 +1,28 @@
+<!-- Timeline horizontal del proceso de devoluciones -->
+<div class="process-flow">
+  <div class="process-flow__header">
+    <h3 class="process-flow__title">Return process flow</h3>
+    <p class="process-flow__subtitle">End-to-end lifecycle of a return request</p>
+  </div>
+
+  <!-- 3 etapas conectadas por una línea -->
+  <div class="process-flow__stages">
+    @for (stage of stages(); track stage.title; let last = $last) {
+
+      <!-- Etapa individual -->
+      <div class="stage">
+        <div class="stage__icon">{{ stage.icon }}</div>
+        <div class="stage__body">
+          <span class="stage__title">{{ stage.title }}</span>
+          <span class="stage__description">{{ stage.description }}</span>
+        </div>
+      </div>
+
+      <!-- Conector entre etapas (no se muestra después de la última) -->
+      @if (!last) {
+        <div class="process-flow__connector">→</div>
+      }
+
+    }
+  </div>
+</div>

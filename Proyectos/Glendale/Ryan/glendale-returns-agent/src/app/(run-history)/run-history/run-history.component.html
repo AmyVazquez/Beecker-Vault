@@ -1,0 +1,59 @@
+<!-- Vista: Run History -->
+<div class="run-history-page">
+
+  <!-- Botón de regreso -->
+  <button class="run-history-page__back" (click)="onBack()">
+    <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+    Back to agent Ryan
+  </button>
+
+  <!-- Barra de controles -->
+  <div class="run-history-page__controls">
+
+    <!-- Items per page -->
+    <div class="run-history-page__per-page">
+      <select [value]="pageSize" (change)="onPageSizeChange($any($event.target).value)">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+      </select>
+      <span>Items per page</span>
+    </div>
+
+    <div class="run-history-page__spacer"></div>
+
+    <!-- Búsqueda -->
+    <input
+      class="run-history-page__search"
+      type="text"
+      placeholder="Search..."
+      [value]="search()"
+      (input)="onSearchChange($any($event.target).value)"
+    />
+
+    <!-- Filtro de mes -->
+    <app-month-selector
+      [selectedMonth]="selectedMonth() ?? ''"
+      (monthChange)="onMonthChange($event)"
+    />
+
+    <!-- Exportar CSV -->
+    <button class="btn-ghost" (click)="onExportCsv()">
+      <svg viewBox="0 0 20 20" fill="currentColor" style="width:14px;height:14px"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      Export CSV
+    </button>
+
+  </div>
+
+  <!-- Tabla -->
+  <app-returns-table
+    [returns]="returns()"
+    [isLoading]="isLoading()"
+    [currentPage]="currentPage()"
+    [pageSize]="pageSize"
+    [totalItems]="totalItems()"
+    (pageChange)="onPageChange($event)"
+    (rowClick)="onRowClick($event)"
+  />
+
+</div>

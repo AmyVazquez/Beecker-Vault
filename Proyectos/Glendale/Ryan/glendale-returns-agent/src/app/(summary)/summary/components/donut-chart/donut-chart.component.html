@@ -1,0 +1,31 @@
+<!-- Donut Chart: distribución por tipo de devolución con ECharts -->
+<div class="donut-chart">
+  <div class="donut-chart__header">
+    <span class="donut-chart__title">Return type breakdown</span>
+    <span class="donut-chart__subtitle">Distribution by category</span>
+  </div>
+
+  @if (isLoading()) {
+    <p class="donut-chart__loading">Cargando...</p>
+  }
+
+  @if (!isLoading()) {
+    <!-- Canvas ECharts -->
+    <div class="donut-chart__canvas"
+         [appEcharts]="chartOptions()">
+    </div>
+
+    <!-- Leyenda con tarjetas bordeadas -->
+    <ul class="donut-legend">
+      @for (item of data(); track item.type; let i = $index) {
+        @if (item.count > 0) {
+          <li class="donut-legend__item" [style.--legend-color]="getColor(i)">
+            <span class="donut-legend__bar"></span>
+            <span class="donut-legend__label">{{ item.type }}</span>
+            <span class="donut-legend__count">{{ item.count }}</span>
+          </li>
+        }
+      }
+    </ul>
+  }
+</div>

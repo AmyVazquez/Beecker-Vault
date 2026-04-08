@@ -1,0 +1,29 @@
+<!-- Navbar: barra superior — logo + Agentes + usuario -->
+<nav class="navbar">
+
+  <!-- Logo Beecker (PNG) -->
+  <div class="navbar__logo" (click)="goToSummary()">
+    <img src="images/beecker-logo.png" alt="Beecker" />
+  </div>
+
+  <!-- Lado derecho: ícono Agentes + usuario -->
+  <div class="navbar__right">
+
+    <button class="navbar__agents-btn" (click)="goToSummary()">
+      <img src="images/agents-icon.png" alt="Agentes" class="navbar__agents-icon" />
+      <span>Agentes</span>
+    </button>
+
+    <div class="navbar__user">
+      <img class="navbar__user-photo"
+           src="https://ui-avatars.com/api/?name=A+Fernanda&background=7654c8&color=fff&size=32"
+           alt="A. Fernanda" />
+      <span class="navbar__user-name">A. Fernanda</span>
+      <svg class="navbar__chevron" viewBox="0 0 10 6" fill="none">
+        <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+  </div>
+
+</nav>

@@ -1,0 +1,24 @@
+<!-- Gráfica de tendencia: Returns volume over time -->
+<div class="trend-chart">
+  <div class="trend-chart__header">
+    <h3 class="trend-chart__title">Returns volume over time</h3>
+    <p class="trend-chart__subtitle">Daily return activity and processing trends</p>
+  </div>
+
+  <!-- Leyenda de las 3 series -->
+  <div class="trend-chart__legend">
+    <span class="legend-item legend-item--received">Received</span>
+    <span class="legend-item legend-item--processed">Processed</span>
+    <span class="legend-item legend-item--approved">Approved</span>
+  </div>
+
+  <!-- Área del gráfico — reemplazar con el componente de la librería elegida -->
+  <div class="trend-chart__canvas">
+    @if (data().length === 0) {
+      <p class="trend-chart__empty">Sin datos para el período seleccionado</p>
+    } @else {
+      <!-- TODO: Integrar librería de gráficas (ngx-charts, Chart.js o ApexCharts) -->
+      <p class="trend-chart__placeholder">Gráfica de línea — pendiente de integración</p>
+    }
+  </div>
+</div>

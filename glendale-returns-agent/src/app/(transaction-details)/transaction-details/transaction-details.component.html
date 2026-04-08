@@ -1,0 +1,41 @@
+<!-- Vista Transaction Details: detalle completo de una devolución -->
+
+@if (returnData()) {
+
+  <!-- Header con botón de regreso y badge de estado en la esquina derecha -->
+  <div class="transaction-details__header-bar">
+    <app-page-header
+      [showBackButton]="true"
+      backLabel="Back to run history"
+      [showRunHistory]="false"
+      (backClick)="goBack()"
+    />
+    <!-- Badge del estado actual — visible en la esquina superior derecha -->
+    <div class="transaction-details__status-badge">
+      <app-status-badge [status]="returnData()!.status" />
+    </div>
+  </div>
+
+  <main class="transaction-details__content">
+
+    <!-- Sección 1: Campos principales de la devolución + sub-sección Items -->
+    <app-transaction-fields [data]="returnData()!" />
+
+    <!-- Sección 2: Timeline de procesamiento con 3 etapas y sus flags -->
+    <app-processing-timeline [returnData]="returnData()!" />
+
+    <!-- Sección 3: Historial de correos enviados al cliente -->
+    <app-email-communications
+      [emails]="emails()"
+      [isLoading]="isLoadingEmails()"
+    />
+
+    <!-- Sección 4: Fotos adjuntas del cliente -->
+    <app-return-photos
+      [photos]="photos()"
+      [isLoading]="isLoadingPhotos()"
+    />
+
+  </main>
+
+}

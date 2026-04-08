@@ -1,0 +1,25 @@
+<!-- Gráfica de dona: tipo de devolución -->
+<div class="donut-chart">
+  <h3 class="donut-chart__title">Tipo de devolución</h3>
+
+  <!-- Área del gráfico — reemplazar con librería (ngx-charts, ApexCharts, etc.) -->
+  <div class="donut-chart__canvas">
+    <!-- Centro de la dona: total -->
+    <div class="donut-chart__center">
+      <span class="donut-chart__total">{{ total }}</span>
+      <span class="donut-chart__total-label">Total</span>
+    </div>
+    <!-- TODO: Integrar librería de gráficas para renderizar la dona visual -->
+  </div>
+
+  <!-- Leyenda con conteo por tipo -->
+  <ul class="donut-legend">
+    @for (item of data(); track item.type) {
+      <li class="donut-legend__item">
+        <span class="donut-legend__dot"></span>
+        <span class="donut-legend__label">{{ item.type | returnType }}</span>
+        <span class="donut-legend__count">{{ item.count }}</span>
+      </li>
+    }
+  </ul>
+</div>

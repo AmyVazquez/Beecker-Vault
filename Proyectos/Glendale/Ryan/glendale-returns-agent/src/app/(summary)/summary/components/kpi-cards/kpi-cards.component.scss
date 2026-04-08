@@ -1,0 +1,67 @@
+/* KPI Cards */
+:host { display: block; }
+
+.kpi-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.kpi-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  /* Fila superior: ícono + label centrados */
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  /* Ícono PNG */
+  &__icon {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  &__label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    line-height: 1;
+  }
+
+  /* Valor centrado horizontalmente */
+  &__value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1;
+    text-align: center;
+  }
+
+  /* Loading skeleton */
+  &--loading { animation: skeleton-pulse 1.5s ease-in-out infinite; }
+
+  &__skeleton {
+    background: #ebebf5;
+    border-radius: 4px;
+
+    &--icon  { width: 26px; height: 26px; border-radius: 6px; }
+    &--label { height: 12px; width: 90px; }
+    &--value { height: 32px; width: 55px; align-self: center; }
+  }
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}

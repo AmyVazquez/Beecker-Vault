@@ -1,0 +1,80 @@
+<!-- Returns Table: tabla paginada de historial de devoluciones -->
+<div class="returns-table-wrapper">
+
+  @if (isLoading()) {
+    <p class="returns-table__loading">Cargando devoluciones...</p>
+  }
+
+  @if (!isLoading()) {
+    @if (returns().length === 0) {
+      <app-empty-state message="No returns found for the current filters." />
+    } @else {
+
+      <div class="table-scroll">
+        <table class="returns-table">
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Order No</th>
+              <th>Return Date</th>
+              <th>Status</th>
+              <th>Return Type</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Comments</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of returns(); track item.userId; let even = $even) {
+              <tr
+                class="returns-table__row"
+                [class.returns-table__row--even]="even"
+                (click)="onRowClick(item.userId)"
+              >
+                <td class="returns-table__id">{{ item.userId }}</td>
+                <td>{{ item.firstName }}</td>
+                <td>{{ item.lastName }}</td>
+                <td>{{ item.orderNo }}</td>
+                <td>{{ item.returnCurrentDate }}</td>
+                <td><app-status-badge [status]="item.status" /></td>
+                <td>{{ item.returnType }}</td>
+                <td class="returns-table__email">{{ item.emailAddress }}</td>
+                <td class="returns-table__address">{{ item.address }}</td>
+                <td class="returns-table__comments">{{ item.comments }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Paginación numérica -->
+      @if (totalPages() > 1) {
+        <div class="pagination">
+          <button
+            class="pagination__btn"
+            [disabled]="currentPage() === 1"
+            (click)="onPageClick(currentPage() - 1)"
+          >‹</button>
+
+          @for (page of pages(); track page) {
+            <button
+              class="pagination__btn"
+              [class.pagination__btn--active]="page === currentPage()"
+              (click)="onPageClick(page)"
+            >{{ page }}</button>
+          }
+
+          <button
+            class="pagination__btn"
+            [disabled]="currentPage() === totalPages()"
+            (click)="onPageClick(currentPage() + 1)"
+          >›</button>
+        </div>
+      }
+
+    }
+  }
+
+</div>

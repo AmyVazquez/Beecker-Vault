@@ -1,0 +1,49 @@
+<!-- Secondary Metrics: panel con métricas de rendimiento -->
+<div class="secondary-metrics">
+
+  @if (isLoading()) {
+    <p class="secondary-metrics__loading">Cargando...</p>
+  }
+
+  @if (!isLoading() && metrics()) {
+    <div class="metric-list">
+
+      <!-- Auto-approval rate -->
+      <div class="metric-item">
+        <div class="metric-item__header">
+          <span class="metric-item__label">Auto-approval rate</span>
+          <span class="metric-item__value">{{ metrics()!.autoApprovalRate }}%</span>
+        </div>
+        <div class="metric-item__bar">
+          <div class="metric-item__fill" [style.width.%]="metrics()!.autoApprovalRate"></div>
+        </div>
+      </div>
+
+      <!-- Manual review rate -->
+      <div class="metric-item">
+        <div class="metric-item__header">
+          <span class="metric-item__label">Manual review rate</span>
+          <span class="metric-item__value">{{ metrics()!.manualReviewRate }}%</span>
+        </div>
+        <div class="metric-item__bar">
+          <div class="metric-item__fill" [style.width.%]="metrics()!.manualReviewRate"></div>
+        </div>
+      </div>
+
+      <!-- Average processing time -->
+      <!-- 🔌 Dato real: AVG(updated_at - created_at) en minutos. Max normalizado: 240 min -->
+      <div class="metric-item">
+        <div class="metric-item__header">
+          <span class="metric-item__label">Average processing time</span>
+          <span class="metric-item__value">{{ metrics()!.avgProcessingTimeMinutes }} min</span>
+        </div>
+        <div class="metric-item__bar">
+          <div class="metric-item__fill"
+               [style.width.%]="(metrics()!.avgProcessingTimeMinutes / 240) * 100">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  }
+</div>

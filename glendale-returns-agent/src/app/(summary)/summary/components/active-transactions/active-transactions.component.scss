@@ -1,0 +1,130 @@
+/* ActiveTransactions — lista de devoluciones en proceso */
+:host { display: block; }
+
+.active-transactions {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__header { margin-bottom: 16px; }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 4px;
+  }
+
+  &__subtitle {
+    font-size: 0.75rem;
+    color: #999;
+    margin: 0;
+  }
+
+  &__loading, &__empty {
+    color: #999;
+    font-size: 0.875rem;
+    text-align: center;
+    padding: 24px 0;
+  }
+
+  &__more {
+    margin-top: auto;
+    padding-top: 12px;
+    background: none;
+    border: none;
+    color: #1976d2;
+    font-size: 0.875rem;
+    cursor: pointer;
+    text-align: left;
+
+    &:hover { text-decoration: underline; }
+  }
+}
+
+/* Lista de ítems */
+.transaction-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.transaction-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+
+  &:hover { background: #fafafa; }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__id {
+    font-size: 0.75rem;
+    color: #999;
+    font-family: monospace;
+  }
+
+  &__name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1a1a1a;
+  }
+
+  &__type {
+    font-size: 0.75rem;
+    color: #666;
+  }
+
+  &__status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+
+  /* Barra de progreso pequeña */
+  &__progress-bar {
+    width: 80px;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  &__progress-fill {
+    height: 100%;
+    background: #1976d2;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+
+  &__action {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.125rem;
+    color: #666;
+    padding: 4px 8px;
+    border-radius: 4px;
+
+    &:hover {
+      background: #f0f0f0;
+      color: #1976d2;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<!-- Vista: Transaction Details -->
+<div class="transaction-details-page">
+
+  <!-- Header: botón de regreso + status badge -->
+  <div class="td-header">
+    <button class="td-header__back" (click)="onBack()">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+      Back to run history
+    </button>
+    <app-status-badge [status]="returnData().status" />
+  </div>
+
+  <!-- Sección 1: Campos de la transacción + ítems -->
+  <app-transaction-fields [returnData]="returnData()" />
+
+  <!-- Sección 2: Timeline del proceso -->
+  <app-processing-timeline [returnData]="returnData()" />
+
+  <!-- Sección 3: Historial de correos -->
+  <app-email-communications
+    [emails]="emails()"
+    [isLoading]="isLoadingEmails()"
+  />
+
+  <!-- Sección 4: Fotos adjuntas -->
+  <app-return-photos
+    [photos]="photos()"
+    [isLoading]="isLoadingPhotos()"
+  />
+
+</div>

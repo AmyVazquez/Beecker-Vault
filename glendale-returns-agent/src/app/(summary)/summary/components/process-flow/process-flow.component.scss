@@ -1,0 +1,71 @@
+/* ProcessFlow — timeline horizontal de 3 etapas */
+:host { display: block; }
+
+.process-flow {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+
+  &__header { margin-bottom: 20px; }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 4px;
+  }
+
+  &__subtitle {
+    font-size: 0.75rem;
+    color: #999;
+    margin: 0;
+  }
+
+  /* Contenedor de las etapas con el conector entre ellas */
+  &__stages {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Flecha conectora entre etapas */
+  &__connector {
+    color: #ccc;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+}
+
+.stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+
+  &__icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  &__description {
+    font-size: 0.75rem;
+    color: #666;
+  }
+}

@@ -1,0 +1,54 @@
+<!-- Sección 4: Fotos adjuntas del cliente -->
+<div class="return-photos card">
+
+  <!-- Header con título y botón de descarga -->
+  <div class="return-photos__header">
+    <h3 class="card__title">Return photos</h3>
+    @if (photos().length > 0) {
+      <button class="btn btn--secondary" (click)="downloadSelected()">
+        ↓ Download {{ hasSelection() ? '(' + selectedIds().size + ')' : 'all' }}
+      </button>
+    }
+  </div>
+
+  @if (isLoading()) {
+    <p class="return-photos__loading">Cargando fotos...</p>
+  }
+
+  @if (!isLoading()) {
+    @if (photos().length === 0) {
+      <app-empty-state message="No photos attached to this return." />
+    } @else {
+      <table class="photos-table">
+        <thead>
+          <tr>
+            <th class="photos-table__check"></th>
+            <th>Document name</th>
+            <th>Date of processing</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (photo of photos(); track photo.id) {
+            <tr class="photos-table__row">
+              <!-- Checkbox de selección -->
+              <td class="photos-table__check">
+                <input
+                  type="checkbox"
+                  [checked]="isSelected(photo.id)"
+                  (change)="toggleSelection(photo.id)"
+                />
+              </td>
+              <td>
+                <a [href]="photo.url" target="_blank" class="photos-table__link">
+                  📷 {{ photo.documentName }}
+                </a>
+              </td>
+              <td>{{ photo.dateOfProcessing }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  }
+
+</div>

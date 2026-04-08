@@ -1,0 +1,44 @@
+<!-- Sección 2: Timeline de procesamiento con 3 etapas -->
+<div class="processing-timeline card">
+  <h3 class="card__title">Processing timeline</h3>
+
+  <div class="timeline">
+    @for (stage of stages(); track stage.title; let last = $last) {
+
+      <!-- Etapa del timeline -->
+      <div
+        class="stage"
+        [class.stage--current]="stage.isCurrent"
+        [class.stage--completed]="stage.isCompleted"
+      >
+        <!-- Indicador visual (círculo) -->
+        <div class="stage__indicator">
+          <div class="stage__dot"></div>
+          @if (!last) {
+            <div class="stage__line"></div>
+          }
+        </div>
+
+        <!-- Contenido de la etapa -->
+        <div class="stage__content">
+          <span class="stage__title">{{ stage.title }}</span>
+          <span class="stage__title-es">{{ stage.titleEs }}</span>
+
+          <!-- Flags de la etapa -->
+          <ul class="stage__flags">
+            @for (flag of stage.flags; track flag.text) {
+              <li
+                class="flag"
+                [class.flag--active]="flag.isActive"
+              >
+                <span class="flag__dot">{{ flag.isActive ? '●' : '○' }}</span>
+                <span class="flag__text">{{ flag.text }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+
+    }
+  </div>
+</div>

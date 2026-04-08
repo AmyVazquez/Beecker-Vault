@@ -1,0 +1,81 @@
+<!-- Sección 1: Campos de la transacción -->
+<div class="transaction-fields card">
+  <h3 class="transaction-fields__title">Transaction details</h3>
+
+  <div class="fields-grid">
+    <div class="field">
+      <span class="field__label">ID RTN</span>
+      <span class="field__value">{{ returnData().userId }}</span>
+    </div>
+    <div class="field">
+      <span class="field__label">User name</span>
+      <span class="field__value">{{ returnData().firstName }} {{ returnData().lastName }}</span>
+    </div>
+    <div class="field">
+      <span class="field__label">No Order</span>
+      <span class="field__value">{{ returnData().orderNo }}</span>
+    </div>
+    <div class="field">
+      <span class="field__label">Return date</span>
+      <span class="field__value">{{ returnData().returnCurrentDate }}</span>
+    </div>
+
+    <div class="field">
+      <span class="field__label">Return for</span>
+      <span class="field__value">{{ returnData().returnFor || '—' }}</span>
+    </div>
+    <div class="field">
+      <span class="field__label">Return type</span>
+      <span class="field__value">{{ returnData().returnType }}</span>
+    </div>
+    <div class="field">
+      <span class="field__label">Exchange item</span>
+      <span class="field__value">{{ returnData().exchangeItem || '—' }}</span>
+    </div>
+    <div class="field">
+      <span class="field__label">Created at</span>
+      <span class="field__value">{{ returnData().createdAt }}</span>
+    </div>
+
+    <div class="field">
+      <span class="field__label">Updated at</span>
+      <span class="field__value">{{ returnData().updatedAt }}</span>
+    </div>
+    <div class="field">
+      <span class="field__label">Email address</span>
+      <span class="field__value">{{ returnData().emailAddress }}</span>
+    </div>
+    <div class="field field--two">
+      <span class="field__label">Address</span>
+      <span class="field__value">{{ returnData().address }}</span>
+    </div>
+
+    <div class="field field--full">
+      <span class="field__label">Comments</span>
+      <span class="field__value">{{ returnData().comments || '—' }}</span>
+    </div>
+  </div>
+
+  <!-- Tabla de ítems -->
+  @if (returnData().items.length > 0) {
+    <div class="items-section">
+      <h4 class="items-section__title">Items</h4>
+      <table class="items-table">
+        <thead>
+          <tr>
+            <th>Item name</th>
+            <th>Quantity returned</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of returnData().items; track item.itemName) {
+            <tr>
+              <td>{{ item.itemName }}</td>
+              <td>{{ item.quantityReturned }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

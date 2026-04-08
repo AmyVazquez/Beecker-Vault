@@ -1,0 +1,59 @@
+<!-- Lista de transacciones activas -->
+<div class="active-transactions">
+  <div class="active-transactions__header">
+    <h3 class="active-transactions__title">Active transaction</h3>
+    <p class="active-transactions__subtitle">Actualmente en proceso</p>
+  </div>
+
+  <!-- Estado de carga -->
+  @if (isLoading()) {
+    <p class="active-transactions__loading">Cargando...</p>
+  }
+
+  <!-- Lista de devoluciones activas -->
+  @if (!isLoading()) {
+    @if (visibleReturns().length === 0) {
+      <p class="active-transactions__empty">No hay devoluciones activas</p>
+    } @else {
+      <ul class="transaction-list">
+        @for (item of visibleReturns(); track item.userId) {
+          <li class="transaction-item">
+
+            <!-- Info principal de la transacción -->
+            <div class="transaction-item__info">
+              <span class="transaction-item__id">{{ item.userId }}</span>
+              <span class="transaction-item__name">{{ getFullName(item) }}</span>
+              <span class="transaction-item__type">{{ item.returnType | returnType }}</span>
+            </div>
+
+            <!-- Estado y progreso -->
+            <div class="transaction-item__status">
+              <app-status-badge [status]="item.status" />
+              <div class="transaction-item__progress-bar">
+                <div
+                  class="transaction-item__progress-fill"
+                  [style.width.%]="getProgress(item.status)"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Botón para ir al detalle -->
+            <button
+              class="transaction-item__action"
+              (click)="viewDetail.emit(item.userId)"
+              title="Ver detalle de {{ item.userId }}"
+            >
+              →
+            </button>
+
+          </li>
+        }
+      </ul>
+
+      <!-- Botón "Mostrar más" redirige a Run History -->
+      <button class="active-transactions__more" (click)="viewAll.emit()">
+        Mostrar más →
+      </button>
+    }
+  }
+</div>

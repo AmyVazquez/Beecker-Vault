@@ -1,0 +1,13 @@
+<!-- 4 tarjetas de KPI en fila horizontal -->
+<div class="kpi-cards">
+  @for (card of cards(); track card.label) {
+    <div class="kpi-card">
+      <div class="kpi-card__icon">{{ card.icon }}</div>
+      <div class="kpi-card__body">
+        <span class="kpi-card__label">{{ card.label }}</span>
+        <span class="kpi-card__value">{{ card.value }}</span>
+        <span class="kpi-card__description">{{ card.description }}</span>
+      </div>
+    </div>
+  }
+</div>

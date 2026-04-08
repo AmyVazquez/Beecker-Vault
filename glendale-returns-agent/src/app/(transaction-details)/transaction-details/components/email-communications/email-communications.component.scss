@@ -1,0 +1,127 @@
+/* EmailCommunications — bandeja de correos expandible */
+:host { display: block; }
+
+.card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 4px;
+  }
+
+  &__subtitle {
+    font-size: 0.75rem;
+    color: #999;
+    margin: 0 0 16px;
+  }
+}
+
+.email-communications__loading {
+  color: #999;
+  font-size: 0.875rem;
+  padding: 16px 0;
+}
+
+.email-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.email-item {
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child { border-bottom: none; }
+
+  /* Fila colapsada — clickeable */
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    cursor: pointer;
+
+    &:hover { background: #fafafa; }
+  }
+
+  &__name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    min-width: 140px;
+  }
+
+  &__subject {
+    font-size: 0.8rem;
+    color: #666;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__time {
+    font-size: 0.75rem;
+    color: #999;
+    white-space: nowrap;
+  }
+
+  &__toggle {
+    font-size: 0.7rem;
+    color: #ccc;
+  }
+
+  /* Cuerpo expandido del email */
+  &__body {
+    padding: 12px 0 16px;
+    border-top: 1px solid #f9f9f9;
+    font-size: 0.875rem;
+    color: #1a1a1a;
+    line-height: 1.6;
+    white-space: pre-wrap; /* Respeta saltos de línea del cuerpo del email */
+  }
+
+  &__attachments {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  &__attachments-label {
+    font-size: 0.75rem;
+    color: #999;
+  }
+
+  &__attachment-link {
+    font-size: 0.8rem;
+    color: #1976d2;
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; }
+  }
+}
+
+/* Badges de tipo de evento */
+.email-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  color: #ffffff;
+
+  &--approved        { background: #217E25; }
+  &--needs-attention { background: #BC2A2A; }
+  &--rejected        { background: #BC2A2A; }
+  &--shipping        { background: #1976d2; }
+}

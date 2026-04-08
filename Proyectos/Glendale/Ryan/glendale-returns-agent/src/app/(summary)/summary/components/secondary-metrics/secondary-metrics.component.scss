@@ -1,0 +1,73 @@
+/* Secondary Metrics — panel de métricas de rendimiento */
+:host { display: block; }
+
+.secondary-metrics {
+  background: transparent;
+  /*
+   * padding-top = chart padding-top(20) + title(~18) + subtitle(~19) + legend margin-top(12) = 69px
+   * Alinea el primer metric-item con la fila de leyenda del trend-chart
+   */
+  padding: 69px 20px 20px;
+
+  &__title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  &__loading {
+    color: var(--color-text-muted);
+    font-size: 13px;
+  }
+}
+
+.metric-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Cada métrica: tarjeta con borde punteado morado */
+.metric-item {
+  border: 1.5px dashed #803FE0;
+  border-radius: 16px;
+  padding: 12px 14px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+
+  &__value {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+
+  /* Barra de progreso — pill con borde morado y relleno lavanda */
+  &__bar {
+    height: 10px;
+    border-radius: 11px;
+    border: 1.5px solid var(--color-primary);
+    background: #ffffff;
+    box-sizing: border-box;
+  }
+
+  &__fill {
+    height: 100%;
+    background: rgba(128, 63, 224, 0.25);
+    transition: width 0.5s ease;
+  }
+}

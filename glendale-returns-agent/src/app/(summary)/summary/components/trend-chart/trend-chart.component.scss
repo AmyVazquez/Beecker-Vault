@@ -1,0 +1,64 @@
+/* TrendChart — gráfica de tendencia */
+:host { display: block; }
+
+.trend-chart {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  height: 100%;
+
+  &__header { margin-bottom: 12px; }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 4px;
+  }
+
+  &__subtitle {
+    font-size: 0.75rem;
+    color: #999;
+    margin: 0;
+  }
+
+  &__legend {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  &__canvas {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__empty, &__placeholder {
+    color: #999;
+    font-size: 0.875rem;
+  }
+}
+
+/* Puntos de la leyenda con color por serie */
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: #666;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 3px;
+    border-radius: 2px;
+  }
+
+  &--received::before  { background: #1976d2; }
+  &--processed::before { background: #43a047; }
+  &--approved::before  { background: #803FE0; }
+}

@@ -1,0 +1,47 @@
+<!-- Vista Run History: tabla completa de devoluciones -->
+
+<!-- Header con botón de regreso a Summary -->
+<app-page-header
+  [showBackButton]="true"
+  backLabel="Back to agent Ryan"
+  [showRunHistory]="false"
+  (backClick)="goBack()"
+/>
+
+<!-- Controles: búsqueda + selector de mes + exportar CSV -->
+<div class="run-history__controls">
+  <input
+    class="run-history__search"
+    type="text"
+    placeholder="Buscar por nombre, orden o ID..."
+    (input)="onSearchChange($any($event.target).value)"
+  />
+  <div class="run-history__actions">
+    <app-month-selector
+      [selectedMonth]="filter().month ?? ''"
+      (monthChange)="onMonthChange($event)"
+    />
+    <button class="btn btn--secondary" (click)="onExportCsv()">
+      CSV ↓
+    </button>
+  </div>
+</div>
+
+<!-- Mensaje de error -->
+@if (error()) {
+  <div class="run-history__error">{{ error() }}</div>
+}
+
+<!-- Tabla de devoluciones -->
+<div class="run-history__content">
+  <app-returns-table
+    [returns]="returns()"
+    [total]="total()"
+    [currentPage]="filter().page"
+    [pageSize]="filter().pageSize"
+    [isLoading]="isLoading()"
+    (rowClick)="goToDetail($event)"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+  />
+</div>

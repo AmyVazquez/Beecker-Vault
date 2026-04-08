@@ -1,0 +1,55 @@
+<!-- Sección 3: Bandeja de correos enviados -->
+<div class="email-communications card">
+  <h3 class="card__title">Email communications</h3>
+  <p class="card__subtitle">Send communications related to this return</p>
+
+  @if (isLoading()) {
+    <p class="email-communications__loading">Cargando correos...</p>
+  }
+
+  @if (!isLoading()) {
+    @if (emails().length === 0) {
+      <app-empty-state message="No emails sent for this return." />
+    } @else {
+      <ul class="email-list">
+        @for (email of emails(); track email.id) {
+          <li class="email-item">
+
+            <!-- Fila colapsada (siempre visible) -->
+            <div class="email-item__header" (click)="toggle(email.id)">
+              <span class="email-item__name">{{ email.clientName }}</span>
+              <span class="email-badge" [ngClass]="getBadgeClass(email.eventType)">
+                {{ email.eventType }}
+              </span>
+              <span class="email-item__subject">{{ email.subject }}</span>
+              <span class="email-item__time">{{ email.sentAt }}</span>
+              <span class="email-item__toggle">
+                {{ expandedId() === email.id ? '▲' : '▼' }}
+              </span>
+            </div>
+
+            <!-- Cuerpo del email (visible solo cuando está expandido) -->
+            @if (expandedId() === email.id) {
+              <div class="email-item__body">
+                <p>{{ email.body }}</p>
+
+                <!-- Archivos adjuntos (ej: etiqueta UPS) -->
+                @if (email.attachments && email.attachments.length > 0) {
+                  <div class="email-item__attachments">
+                    <span class="email-item__attachments-label">Attachments:</span>
+                    @for (att of email.attachments; track att.name) {
+                      <a [href]="att.url" target="_blank" class="email-item__attachment-link">
+                        📎 {{ att.name }}
+                      </a>
+                    }
+                  </div>
+                }
+              </div>
+            }
+
+          </li>
+        }
+      </ul>
+    }
+  }
+</div>

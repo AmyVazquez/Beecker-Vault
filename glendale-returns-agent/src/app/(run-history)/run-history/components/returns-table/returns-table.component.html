@@ -1,0 +1,90 @@
+<!-- Tabla de devoluciones con paginación -->
+<div class="returns-table-wrapper">
+
+  <!-- Controles superiores: tamaño de página (izq) + paginación (der) -->
+  <div class="table-controls">
+    <div class="table-controls__left">
+      <label class="table-controls__label">Items por página:</label>
+      <select
+        class="table-controls__select"
+        [value]="pageSize()"
+        (change)="pageSizeChange.emit(+$any($event.target).value)"
+      >
+        @for (size of pageSizeOptions; track size) {
+          <option [value]="size">{{ size }}</option>
+        }
+      </select>
+    </div>
+    <div class="table-controls__right">
+      <!-- Paginación numérica -->
+      <div class="pagination">
+        <button
+          class="pagination__btn"
+          [disabled]="currentPage() === 1"
+          (click)="pageChange.emit(currentPage() - 1)"
+        >‹</button>
+
+        @for (page of pages(); track page) {
+          <button
+            class="pagination__btn"
+            [class.pagination__btn--active]="page === currentPage()"
+            (click)="pageChange.emit(page)"
+          >{{ page }}</button>
+        }
+
+        <button
+          class="pagination__btn"
+          [disabled]="currentPage() === totalPages()"
+          (click)="pageChange.emit(currentPage() + 1)"
+        >›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado de carga -->
+  @if (isLoading()) {
+    <p class="returns-table__loading">Cargando devoluciones...</p>
+  }
+
+  <!-- Tabla principal -->
+  @if (!isLoading()) {
+    @if (returns().length === 0) {
+      <app-empty-state message="No se encontraron devoluciones con los filtros aplicados." />
+    } @else {
+      <table class="returns-table">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>User Name</th>
+            <th>No Order</th>
+            <th>Return Date</th>
+            <th>Status</th>
+            <th>Return For</th>
+            <th>Return Type</th>
+            <th>Email Address</th>
+            <th>Address</th>
+            <th>Comments</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of returns(); track item.userId) {
+            <!-- Cada fila es clickeable para ir al detalle de la transacción -->
+            <tr class="returns-table__row" (click)="rowClick.emit(item.userId)">
+              <td class="returns-table__id">{{ item.userId }}</td>
+              <td>{{ getFullName(item) }}</td>
+              <td>{{ item.orderNo }}</td>
+              <td>{{ item.returnCurrentDate }}</td>
+              <td><app-status-badge [status]="item.status" /></td>
+              <td>{{ item.returnFor || 'N/A' }}</td>
+              <td>{{ item.returnType | returnType }}</td>
+              <td class="returns-table__email">{{ item.emailAddress }}</td>
+              <td class="returns-table__address">{{ item.address }}</td>
+              <td class="returns-table__comments">{{ item.comments || '—' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  }
+
+</div>

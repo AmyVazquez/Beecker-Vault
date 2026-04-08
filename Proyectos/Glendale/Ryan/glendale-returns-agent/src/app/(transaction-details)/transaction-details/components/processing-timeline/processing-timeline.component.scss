@@ -1,0 +1,135 @@
+/* Processing Timeline — timeline horizontal con 3 pasos */
+:host { display: block; }
+
+.proc-timeline {
+  padding: 20px 24px;
+
+  &__title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0 0 20px;
+  }
+}
+
+/* Track horizontal que contiene los 3 pasos */
+.timeline-track {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+}
+
+/* Cada paso */
+.t-step {
+  display: flex;
+  flex-direction: column;
+
+  /* Parte superior: círculo + línea conectora */
+  &__top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  &__circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #d0d0d0;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d0d0d0;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    z-index: 1;
+
+    svg { width: 16px; height: 16px; }
+  }
+
+  /* Línea que conecta al siguiente paso */
+  &__line {
+    flex: 1;
+    height: 2px;
+    background: #e0e0e0;
+    margin-left: 6px;
+  }
+
+  /* El último paso no tiene línea */
+  &:last-child &__line { display: none; }
+
+  /* Contenido del paso */
+  &__body {
+    padding-right: 20px;
+  }
+
+  &__name {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+
+    &--rejected { color: var(--color-rejected); }
+  }
+
+  /* Lista de flags/eventos dentro del paso */
+  &__flags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__flag {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    padding-left: 14px;
+    position: relative;
+
+    &::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #c0c0c0;
+    }
+
+    /* Flag de advertencia */
+    &--warn::before { content: '✗'; color: var(--color-needs-attention); }
+    &--warn         { color: var(--color-needs-attention); }
+
+    /* Flag de éxito */
+    &--ok::before { content: '✓'; color: var(--color-approved); }
+    &--ok         { color: var(--color-approved); }
+  }
+
+  /* ── Estados del paso ── */
+
+  /* Completado */
+  &--done &__circle {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #ffffff;
+  }
+
+  &--done &__line {
+    background: var(--color-primary);
+  }
+
+  /* Activo */
+  &--active &__circle {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  /* Rechazado */
+  &--rejected &__circle {
+    background: var(--color-rejected);
+    border-color: var(--color-rejected);
+    color: #ffffff;
+  }
+}

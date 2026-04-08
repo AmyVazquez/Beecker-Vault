@@ -1,0 +1,79 @@
+/* Donut Chart */
+:host { display: block; }
+
+.donut-chart {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 20px 20px;
+
+  &__header { margin-bottom: 12px; }
+
+  &__title {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  &__subtitle {
+    display: block;
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    margin-top: 2px;
+  }
+
+  &__loading {
+    color: var(--color-text-muted);
+    font-size: 13px;
+  }
+
+  /* Altura fija requerida por echarts.init() */
+  &__canvas {
+    width: 100%;
+    height: 180px;
+    margin-bottom: 12px;
+  }
+}
+
+/* Leyenda con tarjetas bordeadas */
+.donut-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    border: 1px solid #edeef6;
+    background: #fafafe;
+  }
+
+  &__bar {
+    width: 3px;
+    height: 18px;
+    border-radius: 2px;
+    background: var(--legend-color);
+    flex-shrink: 0;
+  }
+
+  &__label {
+    flex: 1;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+  }
+
+  &__count {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    min-width: 20px;
+    text-align: right;
+  }
+}

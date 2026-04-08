@@ -1,0 +1,30 @@
+<!-- Trend Chart: gráfica de línea con ECharts -->
+<div class="trend-chart">
+  <div class="trend-chart__header">
+    <span class="trend-chart__title">Returns volume over time</span>
+    <span class="trend-chart__subtitle">Daily return activity and processing trends</span>
+  </div>
+
+  <!-- Leyenda centrada -->
+  <div class="trend-chart__legend">
+    <span class="legend-item">
+      <span class="legend-item__dot" style="background:#3b82f6"></span>Received
+    </span>
+    <span class="legend-item">
+      <span class="legend-item__dot" style="background:#6b7280"></span>Processed
+    </span>
+    <span class="legend-item">
+      <span class="legend-item__dot" style="background:#7654c8"></span>Approved
+    </span>
+  </div>
+
+  @if (!isLoading() && data().length > 0) {
+    <div class="trend-chart__canvas"
+         [appEcharts]="chartOptions()">
+    </div>
+  }
+
+  @if (isLoading()) {
+    <div class="trend-chart__loading">Cargando datos...</div>
+  }
+</div>

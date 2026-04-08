@@ -1,0 +1,5 @@
+<!-- Badge coloreado que muestra el estado de la devolución -->
+<!-- La clase CSS se calcula en el componente según el valor del status -->
+<span class="badge" [ngClass]="cssClass">
+  {{ status() | returnStatus }}
+</span>

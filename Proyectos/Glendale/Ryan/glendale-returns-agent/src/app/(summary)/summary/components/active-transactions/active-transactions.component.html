@@ -1,0 +1,60 @@
+<!-- Active Transactions: lista de devoluciones activas -->
+<div class="active-transactions">
+  <div class="active-transactions__header">
+    <div>
+      <span class="active-transactions__title">Active transaction</span>
+      <span class="active-transactions__subtitle">Updated in real time</span>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <p class="active-transactions__loading">Cargando transacciones...</p>
+  }
+
+  @if (!isLoading()) {
+    @if (returns().length === 0) {
+      <app-empty-state message="No active transactions at the moment." />
+    } @else {
+      <ul class="tx-list">
+        @for (item of returns(); track item.userId) {
+          <li class="tx-item" (click)="onRowClick(item.userId)">
+
+            <!-- Ícono de documento (tipo de devolución) -->
+            <div class="tx-item__icon">
+              <svg viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+
+            <!-- Cuerpo: ID + tipo + barra de progreso -->
+            <div class="tx-item__body">
+              <div class="tx-item__row">
+                <span class="tx-item__id">{{ item.userId }}</span>
+                <!-- 🔌 Dato real: campo status de tbl_return_form_users -->
+                <app-status-badge [status]="item.status" />
+              </div>
+              <!-- 🔌 Dato real: campo return_type de tbl_return_form_users -->
+              <span class="tx-item__type">{{ item.returnType }}</span>
+              <!-- 🔌 Dato real: progreso calculado desde status o campo dedicado -->
+              <div class="tx-item__progress">
+                <div class="tx-item__progress-fill"
+                     [style.width.%]="progressFromStatus(item.status)">
+                </div>
+              </div>
+            </div>
+
+            <!-- Chevron de navegación -->
+            <button class="tx-item__action" (click)="$event.stopPropagation(); onRowClick(item.userId)">
+              <svg viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+              </svg>
+            </button>
+
+          </li>
+        }
+      </ul>
+
+      <button class="active-transactions__more">Show more</button>
+    }
+  }
+</div>

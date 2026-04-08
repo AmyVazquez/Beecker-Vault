@@ -34,6 +34,7 @@ estado: En revisión
 
 ### Diseño de Plataforma
 - [[08 - Vistas de la Plataforma]]
+- [[10 - Arquitectura Frontend]]
 
 ### Definiciones y Gobierno
 - [[04 - Flujo de Estados]]

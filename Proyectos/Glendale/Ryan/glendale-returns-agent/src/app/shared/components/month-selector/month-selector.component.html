@@ -1,0 +1,27 @@
+<!-- Selector de mes: botón outline morado con ícono de filtro/calendario + dropdown -->
+<div class="month-selector">
+
+  <button class="month-selector__trigger" (click)="toggle()">
+    <img src="images/Slectmonth.png" alt="" class="month-selector__icon" />
+    <span>{{ selectedLabel }}</span>
+    <svg viewBox="0 0 10 6" fill="none" class="month-selector__chevron"
+         [class.month-selector__chevron--open]="isOpen()">
+      <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  @if (isOpen()) {
+    <ul class="month-selector__dropdown">
+      @for (month of months; track month.value) {
+        <li
+          class="month-selector__option"
+          [class.month-selector__option--active]="month.value === selectedMonth()"
+          (click)="select(month.value)"
+        >
+          {{ month.label }}
+        </li>
+      }
+    </ul>
+  }
+
+</div>

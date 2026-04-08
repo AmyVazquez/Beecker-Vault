@@ -1,0 +1,46 @@
+<!-- Process Flow: timeline horizontal con línea conectora morada -->
+<div class="process-flow">
+  <div class="process-flow__header">
+    <span class="process-flow__title">Return process flow</span>
+    <span class="process-flow__subtitle">End-to-end lifecycle of a return request</span>
+  </div>
+
+  @if (!isLoading()) {
+    <div class="flow-timeline">
+
+      <!-- Línea de fondo que conecta los 3 pasos -->
+      <div class="flow-timeline__track">
+        <div class="flow-timeline__track-fill"></div>
+      </div>
+
+      <!-- Paso 1: Return in queue (completado → círculo sólido morado) -->
+      <div class="flow-step flow-step--done">
+        <div class="flow-step__circle"></div>
+        <span class="flow-step__name">Return in queue</span>
+        <!-- 🔌 Dato real: COUNT status IN (0,1) -->
+        <span class="flow-step__count">{{ (counts()?.inQueue ?? 0) }} returns pending</span>
+      </div>
+
+      <!-- Paso 2: Return in validation (activo → círculo sólido morado) -->
+      <div class="flow-step flow-step--active">
+        <div class="flow-step__circle"></div>
+        <span class="flow-step__name">Return in validation</span>
+        <!-- 🔌 Dato real: COUNT status = 2 (NeedsAttention) -->
+        <span class="flow-step__count">{{ (counts()?.inValidation ?? 0) }} returns under review</span>
+      </div>
+
+      <!-- Paso 3: Approved & In execution (pendiente → círculo outline morado) -->
+      <div class="flow-step flow-step--pending">
+        <div class="flow-step__circle"></div>
+        <span class="flow-step__name">Approved &amp; In execution</span>
+        <!-- 🔌 Dato real: COUNT status = 3 (Approved) -->
+        <span class="flow-step__count">{{ (counts()?.approvedInExecution ?? 0) }} returns in process</span>
+      </div>
+
+    </div>
+  }
+
+  @if (isLoading()) {
+    <p class="process-flow__loading">Cargando...</p>
+  }
+</div>

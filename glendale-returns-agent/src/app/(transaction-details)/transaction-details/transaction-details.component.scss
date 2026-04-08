@@ -1,0 +1,30 @@
+/* Transaction Details — layout de la vista de detalle */
+:host {
+  display: block;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.transaction-details {
+
+  /* Barra superior: header + badge de estado */
+  &__header-bar {
+    position: relative; /* Necesario para posicionar el badge absolutamente */
+  }
+
+  /* Badge de estado en la esquina superior derecha del header */
+  &__status-badge {
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    transform: translateY(-50%);
+  }
+
+  /* Contenido principal con las 4 secciones */
+  &__content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+}
