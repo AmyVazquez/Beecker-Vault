@@ -26,6 +26,14 @@ El agente se ejecuta una vez al día y procesa todas las devoluciones en la band
 
 ---
 
+## Diseño en Figma
+
+El diseño aprobado de la plataforma está disponible en Figma. Este archivo es la referencia visual definitiva para la implementación de todas las vistas descritas en este documento.
+
+[Ver diseño en Figma → Dashboard 2025](https://www.figma.com/design/CQMuS8UwmOhzkwTQxU8xvx/Dashboard-2025?node-id=17633-20405)
+
+---
+
 ## Draft de la interfase (wireframe)
 
 Este borrador describe el layout recomendado para la plataforma usando un enfoque tipo "Pencil":
